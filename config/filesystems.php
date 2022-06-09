@@ -60,6 +60,10 @@ return [
             'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
         ],
 
+        'resources_views' => [
+            'driver' => 'local',
+            'root' => base_path('resources/views/m_kursi'),
+        ],
     ],
 
     /*

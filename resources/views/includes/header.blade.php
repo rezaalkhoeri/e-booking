@@ -32,9 +32,9 @@
     <div class="collapse navbar-collapse" id="ftco-nav">
       <ul class="navbar-nav ml-auto">
         <li class="nav-item @if(\Request::is('/')) active @endif"><a href="/" class="nav-link">Beranda</a></li>
-        <li class="nav-item @if(\Request::is('rooms')) active @endif"><a href="{{ route('rooms') }}" class="nav-link">Daftar Ruangan</a></li>
-        <li class="nav-item @if(\Request::is('book-rooms')) active @endif"><a href="{{ route('book-rooms') }}" class="nav-link">Booking Ruangan</a></li>
         <li class="nav-item @if(\Request::is('book-seat')) active @endif"><a href="{{ route('book-seat') }}" class="nav-link">Booking Kursi</a></li>
+        <li class="nav-item @if(\Request::is('book-rooms')) active @endif"><a href="{{ route('book-rooms') }}" class="nav-link">Booking Ruangan</a></li>
+        <li class="nav-item @if(\Request::is('rooms')) active @endif"><a href="{{ route('rooms') }}" class="nav-link">Daftar Ruangan</a></li>
         <li class="nav-item @if(\Request::is('login-page')) active @endif"><a href="{{ route('login-page') }}" class="nav-link">Login</a></li>
       </ul>
     </div>

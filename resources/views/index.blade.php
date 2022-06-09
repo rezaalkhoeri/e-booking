@@ -43,17 +43,15 @@
       @foreach($getRuangan as $row)
       <div class="col-lg-6">
         <div class="room-wrap d-md-flex">
-          <a href="#" class="img" style="background-image: url('vendor/technext/vacation-rental/images/room.webp');"></a>
+          <a href="#" class="img" style="background-image: url('vendor/technext/vacation-rental/images/{{$row->image}}');"></a>
           <div class="half left-arrow d-flex align-items-center">
             <div class="text p-4 p-xl-5 text-center">
               <p class="star mb-0"><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span></p>
-              <p class="mb-0"> {{$row->NamaKlasifikasi}} </p>
-              <h3 class="mb-3"><a href="javascript:void(0)">{{$row->NamaRuangan}}</a></h3>
+              <p class="mb-0"> {{$row->kode}} </p>
+              <h3 class="mb-3"><a href="javascript:void(0)">{{$row->nama}}</a></h3>
               <ul class="list-accomodation">
-                <li><span>Maks:</span> {{$row->Kapasitas}} Orang</li>
-                <li><span>Status: {{ $row->Status === "1" ? "Tersedia" : "Tidak Tersedia" }} </span> </li>
-                <li><span>Lokasi: {{ $row->Lokasi }} </span> </li>
-                <li>{{ $row->Fasilitas }}</li>
+                <li><span>Maks:</span> {{$row->kapasitas}} Orang</li>
+                <li><span>Status: {{ $row->status === "1" ? "Tersedia" : "Tidak Tersedia" }} </span> </li>
               </ul>
               <!-- Button trigger modal -->
               <p class="pt-1"><a href="javascript:void(0)" id="buttonBorrowRoomModal" class="btn-custom px-3 py-2" data-toggle="modal" data-target="#borrowRoomModal" data-room-id="1" data-room-name="ground">Pinjam Ruang Ini <span class="icon-long-arrow-right"></span></a></p>

@@ -103,26 +103,7 @@
                     </form>
                 </div>
             </div>
-            <div class="col-lg-4 col-md-5 d-flex align-items-stretch">
-                <div class="info-wrap bg-primary w-100 p-md-5 p-4">
-                    <h3>History Booking Ruangan</h3>
-                    <p class="mb-4">Lihat data booking ruangan? <a href="{{ route('data-booking') }}" style="color:white;"> disini </a></p>
-                    @foreach($getOrder as $row)
-                    <div class="dbox w-100 d-flex align-items-start">
-                        <div class="icon d-flex align-items-center justify-content-center">
-                            <span class="fa fa-list"></span>
-                        </div>
-                        <div class="text pl-3">
-                            <p><span> {{$row->IdOrderRuangan}} </span></p>
-                            <p><span> {{$row->NamaUser}} | {{$row->EmailUser}} </span></p>
-                            <p> <span> Acara : </span> {{$row->NamaAcara}} </p>
-                            <p> <span> Mulai : </span> {{$row->WaktuMulai}}</p>
-                            <p> <span> Selesai : </span> {{$row->WaktuSelesai}}</p>
-                        </div>
-                    </div>
-                    @endforeach
-                </div>
-            </div>
+
         </div>
     </div>
 </div>
@@ -138,11 +119,6 @@
 <script>
     $(document).ready(function() {
         let availableTags = [];
-        let getCostCenter = <?php echo $getCostCenter ?>
-
-        for (let i = 0; i < getCostCenter.length; i++) {
-            availableTags.push(getCostCenter[i].CostCenter)
-        }
 
         $("#selectCostCenter").autocomplete({
             source: availableTags
