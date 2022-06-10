@@ -89,8 +89,7 @@
 
                         <div class="col-md-12">
                             <div class="form-group">
-                                <input type="button" value="Send Message" id="submitBooking" class="btn btn-primary">
-                                <div class="submitting"></div>
+                                <button type="button" id="submitBooking" class="btn btn-primary">Booking</button>
                             </div>
                         </div>
                     </div>

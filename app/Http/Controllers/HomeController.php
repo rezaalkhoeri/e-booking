@@ -60,6 +60,11 @@ class HomeController extends Controller
         return view('pages.book_seat', compact($return));
     }
 
+    public function my_account()
+    {
+        return view('pages.my_account');
+    }
+
     public function data_booking()
     {
         return view('pages.data_booking');

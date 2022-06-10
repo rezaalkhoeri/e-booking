@@ -30,7 +30,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label class="label" for="name">Password</label>
-                                    <input type="text" class="form-control" name="password" id="password" placeholder="Password">
+                                    <input type="password" class="form-control" name="password" id="password" placeholder="Password">
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -86,7 +86,7 @@
                     if (data.status == 'success') {
                         swal.fire("Success!", data.message, data.alert)
                             .then(function() {
-                                location.reload()
+                                location.href = "{{route('my-account')}}"
                             });
                     } else {
                         swal.fire("Warning!", data.message, data.alert);

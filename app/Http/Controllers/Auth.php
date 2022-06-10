@@ -148,6 +148,6 @@ class Auth extends Controller
     {
         $loginData = Session::get('user_access');
         $request->session()->flush();
-        return redirect()->route('login');
+        return redirect()->route('login-page');
     }
 }

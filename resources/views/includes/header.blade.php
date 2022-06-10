@@ -35,7 +35,12 @@
         <li class="nav-item @if(\Request::is('book-seat')) active @endif"><a href="{{ route('book-seat') }}" class="nav-link">Booking Kursi</a></li>
         <li class="nav-item @if(\Request::is('book-rooms')) active @endif"><a href="{{ route('book-rooms') }}" class="nav-link">Booking Ruangan</a></li>
         <li class="nav-item @if(\Request::is('rooms')) active @endif"><a href="{{ route('rooms') }}" class="nav-link">Daftar Ruangan</a></li>
+        @if(Session::has('user_access'))
+        <li class="nav-item @if(\Request::is('my-account')) active @endif"><a href="{{ route('my-account') }}" class="nav-link">My Account</a></li>
+        <li class="nav-item @if(\Request::is('sign-out')) active @endif"><a href="{{ route('sign-out') }}" class="nav-link"><i class="fa fa-sign-out"></i></a></li>
+        @else
         <li class="nav-item @if(\Request::is('login-page')) active @endif"><a href="{{ route('login-page') }}" class="nav-link">Login</a></li>
+        @endif
       </ul>
     </div>
   </div>
