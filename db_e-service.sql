@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS `m_kursi` (
 -- Dumping data for table pdsieservice.m_kursi: ~0 rows (approximately)
 /*!40000 ALTER TABLE `m_kursi` DISABLE KEYS */;
 INSERT INTO `m_kursi` (`ID`, `fungsi`, `kode`, `nama`, `status`, `createdtime`, `createdby`, `updatedtime`, `updatedby`) VALUES
-	(1, 13, 'A1', 'Kursi ICT 1', 1, '2022-05-23 12:22:43', 'system', '2022-06-09 12:29:18', 'system');
+	(1, 13, 'A1', 'ICT', 1, '2022-05-23 12:22:43', 'system', '2022-06-16 15:42:10', 'system');
 /*!40000 ALTER TABLE `m_kursi` ENABLE KEYS */;
 
 -- Dumping structure for table pdsieservice.m_ruangmeeting
@@ -66,7 +66,7 @@ CREATE TABLE IF NOT EXISTS `m_template_kursi` (
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 
--- Dumping data for table pdsieservice.m_template_kursi: ~1 rows (approximately)
+-- Dumping data for table pdsieservice.m_template_kursi: ~0 rows (approximately)
 /*!40000 ALTER TABLE `m_template_kursi` DISABLE KEYS */;
 INSERT INTO `m_template_kursi` (`ID`, `fungsi`, `template`) VALUES
 	(1, 13, 'kursi_ict');
@@ -206,6 +206,7 @@ INSERT INTO `ref_fungsi` (`ID`, `nama`, `id_direktorat`, `status`, `urutan`) VAL
 -- Dumping structure for table pdsieservice.trx_bookingkursi
 CREATE TABLE IF NOT EXISTS `trx_bookingkursi` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `kodeBooking` varchar(50) DEFAULT NULL,
   `user` int(11) DEFAULT 0,
   `direktorat` int(11) DEFAULT 0,
   `fungsi` int(11) DEFAULT 0,
@@ -215,17 +216,21 @@ CREATE TABLE IF NOT EXISTS `trx_bookingkursi` (
   `jamMulai` time DEFAULT NULL,
   `jamSelesai` time DEFAULT NULL,
   `keterangan` text DEFAULT NULL,
+  `status` int(11) DEFAULT NULL,
   `createdtime` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `createdby` varchar(150) DEFAULT 'system',
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4;
 
--- Dumping data for table pdsieservice.trx_bookingkursi: ~0 rows (approximately)
+-- Dumping data for table pdsieservice.trx_bookingkursi: ~6 rows (approximately)
 /*!40000 ALTER TABLE `trx_bookingkursi` DISABLE KEYS */;
-INSERT INTO `trx_bookingkursi` (`ID`, `user`, `direktorat`, `fungsi`, `kursi`, `tglPemakaian`, `tipe`, `jamMulai`, `jamSelesai`, `keterangan`, `createdtime`, `createdby`) VALUES
-	(1, 1, 4, 13, 1, '2022-06-09', 1, '00:00:07', '00:00:12', 'test', '2022-06-09 12:37:01', 'dummy.test'),
-	(2, 1, 4, 13, 1, '2022-06-09', 1, '00:00:07', '01:00:11', 'etsesd', '2022-06-09 13:05:31', 'iman.ramadhan'),
-	(3, 1, 4, 13, 1, '2022-06-09', 2, '07:00:00', '17:00:00', 'zdfas', '2022-06-09 13:07:42', 'iman.ramadhan');
+INSERT INTO `trx_bookingkursi` (`ID`, `kodeBooking`, `user`, `direktorat`, `fungsi`, `kursi`, `tglPemakaian`, `tipe`, `jamMulai`, `jamSelesai`, `keterangan`, `status`, `createdtime`, `createdby`) VALUES
+	(1, 'UO7XFD', 1, 4, 13, 1, '2022-06-16', 2, '07:00:00', '17:00:00', 'test', 1, '2022-06-16 15:51:58', 'iman.ramadhan'),
+	(2, 'KBPH7P', 1, 4, 13, 1, '2022-06-24', 1, '07:00:00', '12:00:00', 'test', 0, '2022-06-16 15:50:56', 'iman.ramadhan'),
+	(3, '9ITLAW', 1, 4, 13, 1, '2022-06-18', 2, '07:00:00', '17:00:00', 'test', 3, '2022-06-16 15:52:38', 'iman.ramadhan'),
+	(4, '6INTZS', 1, 4, 13, 1, '2022-06-22', 2, '07:00:00', '17:00:00', 'testt', 0, '2022-06-16 15:50:57', 'iman.ramadhan'),
+	(5, 'W5JOXU', 1, 4, 13, 1, '2022-06-17', 2, '07:00:00', '17:00:00', 'test', 0, '2022-06-16 15:50:58', 'iman.ramadhan'),
+	(6, 'RRK1AA', 1, 4, 13, 1, '2022-06-24', 2, '07:00:00', '17:00:00', 'test', 0, '2022-06-16 15:50:58', 'iman.ramadhan');
 /*!40000 ALTER TABLE `trx_bookingkursi` ENABLE KEYS */;
 
 -- Dumping structure for table pdsieservice.trx_bookingmeeting
