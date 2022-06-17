@@ -35,7 +35,21 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="label" for="namWWe">Pilih Kursi</label>
+                                <div class="form-field">
+                                    <div class="select-wrap">
+                                        <select class="form-control kursi" name="kursi" id="kursi">
+                                            <option value=""></option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- <div class="col-md-3">
                             <div class="form-group">
                                 <label class="label" for="email">Pilih Kursi</label>
                                 <input type="text" class="form-control" name="kursi" id="kursi" readonly>
@@ -46,7 +60,7 @@
                             <div class="form-group">
                                 <button type="button" class="btn btn-primary" id="lihatKursi"> Lihat Kursi</button>
                             </div>
-                        </div>
+                        </div> -->
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="label" for="name">Tanggal Pemakaian</label>
@@ -126,6 +140,7 @@
         </div>
     </div>
 </div>
+
 @section('scripts')
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
@@ -170,6 +185,9 @@
     $('.fungsi').select2({
         placeholder: 'Select an option'
     });
+    $('.kursi').select2({
+        placeholder: 'Select an option'
+    });
 
     $("#direktorat").change(function() {
         var direktorat = $('#direktorat').val();
@@ -203,7 +221,7 @@
     $("#fungsi").change(function() {
         var fungsi = $('#fungsi').val();
         $.ajax({
-            url: "{{ route('get-kursi')}}",
+            url: "{{ route('get-kursi-data')}}",
             method: "POST",
             data: "datanya=" + JSON.stringify(fungsi),
             dataType: 'json',
@@ -211,11 +229,41 @@
 
             },
             success: function(data) {
-                let html = data[0].template;
-                $("#box_kursi").val(html)
+                kursi = {};
+                for (let i = 0; i < data.length; i++) {
+                    kursi[data[i].ID] = data[i].kode + ' | ' + data[i].nama
+                }
+                $('#kursi').find('option')
+                    .remove()
+                    .end()
+                    .append('<option value=""> -- Pilih Kursi -- </option>')
+
+                $.each(kursi, function(val, text) {
+                    $('#kursi').append(
+                        $('<option></option>').val(val).html(text)
+                    );
+                });
             }
         });
     });
+
+    // $("#fungsi").change(function() {
+    //     var fungsi = $('#fungsi').val();
+    //     $.ajax({
+    //         url: "{{ route('get-kursi')}}",
+    //         method: "POST",
+    //         data: "datanya=" + JSON.stringify(fungsi),
+    //         dataType: 'json',
+    //         beforeSend: function() {
+
+    //         },
+    //         success: function(data) {
+    //             let html = data[0].template;
+    //             $("#box_kursi").val(html)
+    //         }
+    //     });
+    // });
+
     $("#box_kursi").val("")
 
     $("#tipe_pakai").change(function() {
@@ -274,9 +322,13 @@
             dataType: "json",
             success: function(data) {
                 if (data.status == 'success') {
+                    let url = "{{route('view-ticket', 'slug' )}}"
+                    url = url.replace('slug', data.id);
+
+                    console.log(url);
                     swal.fire("Success!", data.message, data.alert)
                         .then(function() {
-                            location.reload();
+                            location.href = url;
                         });
                 } else {
                     swal.fire("Warning!", data.message, data.alert);

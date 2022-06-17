@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
+
 
 class HomeController extends Controller
 {
@@ -62,7 +64,27 @@ class HomeController extends Controller
 
     public function my_account()
     {
-        return view('pages.my_account');
+        $getUser = Session::get('user_access');
+        $getUserID = DB::table('users')
+            ->where([
+                'userid' => $getUser['user_id'],
+            ])->get();
+
+
+        $getBooking = DB::table('trx_bookingkursi')
+            ->select('trx_bookingkursi.*', 'users.userid', 'ref_direktorat.nama as direktorat', 'ref_fungsi.nama as fungsi', 'm_kursi.kode as kodeKursi', 'm_kursi.nama')
+            ->join('users', 'users.ID', 'trx_bookingkursi.user')
+            ->join('ref_direktorat', 'ref_direktorat.ID', 'trx_bookingkursi.direktorat')
+            ->join('ref_fungsi', 'ref_fungsi.ID', 'trx_bookingkursi.fungsi')
+            ->join('m_kursi', 'm_kursi.ID', 'trx_bookingkursi.kursi')
+            ->where('trx_bookingkursi.user', $getUserID[0]->ID)
+            ->get();
+
+        // echo '<pre>', print_r($getBooking, 1), '</pre>';
+        // die;
+        $return = ['getBooking'];
+
+        return view('pages.my_account', compact($return));
     }
 
     public function data_booking()

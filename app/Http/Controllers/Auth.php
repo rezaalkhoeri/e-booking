@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Session;
+use Illuminate\Support\Facades\Session;
 
 
 class Auth extends Controller
@@ -51,14 +51,17 @@ class Auth extends Controller
 
                 if ($get_access_ldap['Status'] == 00) {
                     $detildata = $get_access_ldap["Data"];
+
                     $email = explode('@', $detildata['Email']);
 
                     $user_access = array(
                         'user_id'     => $email[0],
+                        'email'     => $detildata['Email'],
                         'inisial' => $detildata['NamaLengkap'][0],
                         'user_nama' => $detildata['NamaLengkap'],
                         'user_nopek' => $detildata['EmpNumber'],
                         'user_jabatan' => $detildata['PosText'],
+                        'fungsi' => $detildata['DirText'],
                         'user_mitra' => $detildata['IsMitra'],
                         'lastcall'     => time()
                         //,'jwttoken' => $detildata["token"]

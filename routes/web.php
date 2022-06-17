@@ -32,10 +32,14 @@ Route::middleware([CheckAuth::class])->group(function () {
     Route::get('/book-seat', [HomeController::class, 'book_seat'])->name('book-seat');
     Route::post('/get-fungsi', [ActionController::class, 'get_fungsi'])->name('get-fungsi');
     Route::post('/get-kursi', [ActionController::class, 'get_kursi'])->name('get-kursi');
+    Route::post('/get-kursi-data', [ActionController::class, 'get_kursi_data'])->name('get-kursi-data');
     Route::post('/get-template', [ActionController::class, 'get_template'])->name('get-template');
     Route::get('/data-booking', [HomeController::class, 'data_booking'])->name('data-booking');
     Route::get('/my-account', [HomeController::class, 'my_account'])->name('my-account');
+
+    Route::get('/view-ticket/{id}', [KursiController::class, 'view_ticket'])->name('view-ticket');
     Route::get('/scan-qrcode', [KursiController::class, 'scan_qrcode'])->name('scan-qrcode');
+    Route::get('/download-ticket/{id}', [KursiController::class, 'download_ticket'])->name('download-ticket');
 
     Route::post('/booking-kursi', [ActionController::class, 'booking_kursi'])->name('booking-kursi');
 });
