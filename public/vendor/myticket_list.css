@@ -37,7 +37,7 @@
 }
 .tickets-container .tickets-list .ticket-item .ticket-time i {
   color: #ccc;
-  width:50px;
+  width:30px;
 }
 
 .tickets-container .tickets-list .ticket-item .divider {
@@ -52,8 +52,15 @@
 .tickets-container .tickets-list .ticket-item .ticket-time {
   line-height: 30px;
   height: 50px;
-  padding: 10px;
+  padding: 8px;
 }
+
+.tickets-container .tickets-list .ticket-item .lihat_tiket {
+  line-height: 30px;
+  height: 50px;
+  padding: 15px;
+}
+
 .tickets-container .tickets-list .ticket-item .ticket-user .user-company {
   margin-left: 2px;
   color: #999;

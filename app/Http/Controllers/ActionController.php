@@ -121,4 +121,80 @@ class ActionController extends Controller
             return;
         }
     }
+
+    public function confirm_ticket()
+    {
+        $data = json_decode($_POST['datanya']);
+        $getBooking = DB::table('trx_bookingkursi')
+            ->where([
+                'kodeBooking' => $data->kodeBooking,
+            ])
+            ->get();
+
+        if (count($getBooking) > 0) {
+            $cekConfirm = DB::table('trx_updatedkursi')
+                ->where([
+                    'kodeBooking' => $data->kodeBooking,
+                ])
+                ->get();
+
+            if (count($cekConfirm) > 0) {
+                $notif = [
+                    'status' => 'warning',
+                    'message' => 'Kode Booking Sudah digunakan!',
+                    'alert' => 'warning'
+                ];
+                echo json_encode($notif);
+                return;
+            } else {
+                $insertData = [
+                    'kodeBooking' => $getBooking[0]->kodeBooking,
+                    'user' => $getBooking[0]->user,
+                    'direktorat' => $getBooking[0]->direktorat,
+                    'fungsi' => $getBooking[0]->fungsi,
+                    'kursi' => $getBooking[0]->kursi,
+                    'tglPemakaian' => $getBooking[0]->tglPemakaian,
+                    'tipe' => $getBooking[0]->tipe,
+                    'jamMulai' => $getBooking[0]->jamMulai,
+                    'jamSelesai' => $getBooking[0]->jamSelesai,
+                    'keterangan' => $getBooking[0]->keterangan,
+                    'createdby' => $getBooking[0]->createdby
+                ];
+
+                $action = DB::table('trx_updatedkursi')->insert($insertData);
+
+                if ($action) {
+                    $updatedData = [
+                        'status' => 1
+                    ];
+
+                    DB::table('trx_bookingkursi')->where('ID', $getBooking[0]->ID)->update($updatedData);
+
+                    $notif = [
+                        'status' => 'success',
+                        'message' => 'Ticket Confirmed!',
+                        'alert' => 'success'
+                    ];
+                    echo json_encode($notif);
+                    return;
+                } else {
+                    $notif = [
+                        'status' => 'warning',
+                        'message' => ' Confirm Ticket Failed!',
+                        'alert' => 'warning'
+                    ];
+                    echo json_encode($notif);
+                    return;
+                }
+            }
+        } else {
+            $notif = [
+                'status' => 'warning',
+                'message' => 'Kode booking tidak ditemukan! Silakan pesan tiket terlebih dahulu.',
+                'alert' => 'warning'
+            ];
+            echo json_encode($notif);
+            return;
+        }
+    }
 }

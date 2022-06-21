@@ -34,12 +34,16 @@
                                                                 <span class="user-at">at</span>
                                                                 <span class="user-company">{{$row->fungsi}}</span>
                                                             </div>
-                                                            <div class="ticket-time  col-md-4 col-sm-6 col-xs-12">
+                                                            <div class="ticket-time  col-md-2 col-sm-6 col-xs-12">
                                                                 <div class="divider hidden-md hidden-sm hidden-xs"></div>
                                                                 <i class="fa fa-clock-o"></i>
                                                                 <span class="time">{{$row->tglPemakaian}}</span>
                                                             </div>
                                                             @if($row->status == 1)
+                                                            <div class="ticket-time  col-md-2 col-sm-6 col-xs-12">
+                                                                <div class="divider hidden-md hidden-sm hidden-xs"></div>
+                                                                <span class="lihat_tiket"><a href="{{route('view-ticket', $row->ID )}}"> Lihat Tiket</a></span>
+                                                            </div>
                                                             <div class="ticket-type  col-md-2 col-sm-6 col-xs-12">
                                                                 <span class="divider hidden-xs"></span>
                                                                 <span class="type"> Confirmed </span>
@@ -48,6 +52,10 @@
                                                                 <i class="fa fa-check"></i>
                                                             </div>
                                                             @elseif($row->status == 0)
+                                                            <div class="ticket-time  col-md-2 col-sm-6 col-xs-12">
+                                                                <div class="divider hidden-md hidden-sm hidden-xs"></div>
+                                                                <span class="lihat_tiket"><a href="{{route('view-ticket', $row->ID )}}"> Lihat Tiket</a></span>
+                                                            </div>
                                                             <div class="ticket-type  col-md-2 col-sm-6 col-xs-12">
                                                                 <span class="divider hidden-xs"></span>
                                                                 <span class="type"> Unconfirmed </span>
@@ -56,6 +64,10 @@
                                                                 <i class="fa fa-exclamation-triangle"></i>
                                                             </div>
                                                             @else
+                                                            <div class="ticket-time  col-md-2 col-sm-6 col-xs-12">
+                                                                <div class="divider hidden-md hidden-sm hidden-xs"></div>
+
+                                                            </div>
                                                             <div class="ticket-type  col-md-2 col-sm-6 col-xs-12">
                                                                 <span class="divider hidden-xs"></span>
                                                                 <span class="type"> Expired </span>

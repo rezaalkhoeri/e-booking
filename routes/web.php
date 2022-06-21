@@ -42,4 +42,5 @@ Route::middleware([CheckAuth::class])->group(function () {
     Route::get('/download-ticket/{id}', [KursiController::class, 'download_ticket'])->name('download-ticket');
 
     Route::post('/booking-kursi', [ActionController::class, 'booking_kursi'])->name('booking-kursi');
+    Route::post('/confirm-ticket', [ActionController::class, 'confirm_ticket'])->name('confirm-ticket');
 });
