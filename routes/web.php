@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/login-page', [Auth::class, 'index'])->name('login-page');
 Route::post('/auth-login', [Auth::class, 'login'])->name('auth-login');
+Route::post('/auth-login-pekerja', [Auth::class, 'loginPekerja'])->name('auth-login-pekerja');
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/rooms', [HomeController::class, 'rooms'])->name('rooms');

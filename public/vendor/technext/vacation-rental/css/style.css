@@ -9104,7 +9104,8 @@ footer {
   width: 100%; }
 
 .contact-wrap {
-  background: #fff; }
+  background: #fff; 
+  margin-top:50px; }
   .contact-wrap h3 {
     font-size: 30px;
     font-weight: 700; }
