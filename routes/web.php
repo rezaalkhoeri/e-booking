@@ -6,6 +6,9 @@ use App\Http\Controllers\ActionController;
 use App\Http\Controllers\KursiController;
 use App\Http\Controllers\Auth;
 use App\Http\Middleware\CheckAuth;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\BookingKursi;
+
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Route;
 
@@ -28,6 +31,9 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/rooms', [HomeController::class, 'rooms'])->name('rooms');
 
 Route::middleware([CheckAuth::class])->group(function () {
+    Route::get('admin-page', [DashboardController::class, 'index'])->name('admin-index');
+    Route::get('input-wfo', [BookingKursi::class, 'input_pekerja_wfo'])->name('input-wfo');
+
     Route::get('/sign-out', [Auth::class, 'signout'])->name('sign-out');
     Route::get('/book-rooms', [HomeController::class, 'book_rooms'])->name('book-rooms');
     Route::get('/book-seat', [HomeController::class, 'book_seat'])->name('book-seat');

@@ -11,7 +11,7 @@
                     <div id="form-message-success" align="center" class="mb-4">
                         E-Service Pertamina Drilling Services Indonesia
                     </div>
-                    <div id="login-admin" class="contactForm"> 
+                    <div id="login-admin" class="contactForm">
                         <div class="row">
                             <div class="col-md-4">
                             </div>
@@ -48,7 +48,7 @@
                             </div>
                         </div>
                     </div>
-                    <div id="login-pekerja" class="contactForm"> 
+                    <div id="login-pekerja" class="contactForm">
                         <div class="row">
                             <div class="col-md-4">
                             </div>
@@ -73,7 +73,7 @@
                             </div>
                         </div>
                     </div>
-                    <div id="login-index" style="margin-top:50px;margin-bottom:150px"> 
+                    <div id="login-index" style="margin-top:50px;margin-bottom:150px">
                         <div class="row">
                             <div class="col-md-6" align="right">
                                 <button type="button" id="btnDirectAdmin" class="btn btn-primary"> Login sebagai Admin / Atasan Pekerja</button>
@@ -164,7 +164,7 @@
                     if (data.status == 'success') {
                         swal.fire("Success!", data.message, data.alert)
                             .then(function() {
-                                location.href = "{{route('my-account')}}"
+                                location.href = "{{route('admin-index')}}"
                             });
                     } else {
                         swal.fire("Warning!", data.message, data.alert);
