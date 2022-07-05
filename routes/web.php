@@ -4,6 +4,8 @@ use App\Http\Controllers\API\V1\BorrowRoomApiController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ActionController;
 use App\Http\Controllers\KursiController;
+use App\Http\Controllers\ReservasiController;
+use App\Http\Controllers\PekerjaController;
 use App\Http\Controllers\Auth;
 use App\Http\Middleware\CheckAuth;
 use Illuminate\Routing\Router;
@@ -29,12 +31,26 @@ Route::get('/rooms', [HomeController::class, 'rooms'])->name('rooms');
 
 Route::middleware([CheckAuth::class])->group(function () {
     Route::get('/sign-out', [Auth::class, 'signout'])->name('sign-out');
+
+    /** Menu Request WFO */
+    Route::get('/request-wfo', [PekerjaController::class, 'request_wfo'])->name('request-wfo');
+    Route::post('/submit-wfo', [PekerjaController::class, 'submit_wfo'])->name('submit-wfo');
+    Route::post('/get-atasan-fungsi', [PekerjaController::class, 'get_atasan_fungsi'])->name('get-atasan-fungsi');
+
+    Route::get('/list-approval', [HomeController::class, 'list_approval'])->name('list-approval');
+
     Route::get('/book-rooms', [HomeController::class, 'book_rooms'])->name('book-rooms');
     Route::get('/book-seat', [HomeController::class, 'book_seat'])->name('book-seat');
+    Route::get('/history-reservasi', [HomeController::class, 'history_reservasi'])->name('history-reservasi');
+
+
     Route::post('/get-fungsi', [ActionController::class, 'get_fungsi'])->name('get-fungsi');
     Route::post('/get-kursi', [ActionController::class, 'get_kursi'])->name('get-kursi');
     Route::post('/get-kursi-data', [ActionController::class, 'get_kursi_data'])->name('get-kursi-data');
     Route::post('/get-template', [ActionController::class, 'get_template'])->name('get-template');
+
+    Route::post('/get-denah-kursi', [ReservasiController::class, 'get_urldenah'])->name('get-denah-kursi');
+    
     Route::get('/data-booking', [HomeController::class, 'data_booking'])->name('data-booking');
     Route::get('/my-account', [HomeController::class, 'my_account'])->name('my-account');
 
