@@ -65,7 +65,7 @@ Input Pekerja WFO
                                             <i class="fas fa-clock"></i>
                                         </div>
                                     </div>
-                                    <input type="text" id="jam_mulai" class="form-control" readonly="readonly">
+                                    <input type="text" id="jam_mulai" class="form-control timepicker" readonly="readonly">
                                 </div>
                             </div>
                             <div class="form-group col-6">
@@ -76,7 +76,7 @@ Input Pekerja WFO
                                             <i class="fas fa-clock"></i>
                                         </div>
                                     </div>
-                                    <input type="text" id="jam_selesai" class="form-control" readonly="readonly">
+                                    <input type="text" id="jam_selesai" class="form-control timepicker" readonly="readonly">
                                 </div>
                             </div>
                         </div>
@@ -243,20 +243,19 @@ Input Pekerja WFO
             $("#jam_selesai").val('12:00 AM')
             $("#jam_mulai").prop('readonly', true)
             $("#jam_selesai").prop('readonly', true)
+
         } else if (tipe_pakai == '2') {
             $("#jam_mulai").val('07:00 AM')
             $("#jam_selesai").val('17:00 AM')
             $("#jam_mulai").prop('readonly', true)
             $("#jam_selesai").prop('readonly', true)
+
         } else if (tipe_pakai == '3') {
-            $("#jam_mulai").timepicker()
-            $("#jam_selesai").timepicker()
+            $("#jam_mulai").prop('readonly', false)
+            $("#jam_selesai").prop('readonly', false)
         } else {
             $("#jam_mulai").prop('readonly', true)
             $("#jam_selesai").prop('readonly', true)
-            $("#jam_mulai").timepicker().destroy()
-            $("#jam_selesai").timepicker().destroy()
-
         }
     });
 </script>
