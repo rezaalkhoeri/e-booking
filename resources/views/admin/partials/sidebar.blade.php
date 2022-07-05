@@ -19,5 +19,6 @@
     <li class="{{ Request::route()->getName() == 'admin-index' ? ' active' : '' }}"><a class="nav-link" href="{{ route('admin-index') }}"><i class="fa fa-chair"></i> <span>Data Kursi</span></a></li>
     <li class="{{ Request::route()->getName() == 'admin-index' ? ' active' : '' }}"><a class="nav-link" href="{{ route('admin-index') }}"><i class="fa fa-table"></i> <span>Data Ruang Meeting</span></a></li>
     <li class="{{ Request::route()->getName() == 'admin-index' ? ' active' : '' }}"><a class="nav-link" href="{{ route('admin-index') }}"><i class="fa fa-user"></i> <span>Data User</span></a></li>
+    <li class="{{ Request::route()->getName() == 'admin-index' ? ' active' : '' }}"><a class="nav-link" href="{{ route('data-pekerja') }}"><i class="fa fa-users"></i> <span>Data Pekerja</span></a></li>
   </ul>
 </aside>

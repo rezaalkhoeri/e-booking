@@ -8,6 +8,7 @@ use App\Http\Controllers\Auth;
 use App\Http\Middleware\CheckAuth;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\BookingKursi;
+use App\Http\Controllers\Admin\MasterPekerjaController;
 
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Route;
@@ -33,6 +34,8 @@ Route::get('/rooms', [HomeController::class, 'rooms'])->name('rooms');
 Route::middleware([CheckAuth::class])->group(function () {
     Route::get('admin-page', [DashboardController::class, 'index'])->name('admin-index');
     Route::get('input-wfo', [BookingKursi::class, 'input_pekerja_wfo'])->name('input-wfo');
+    Route::get('data-pekerja', [MasterPekerjaController::class, 'index'])->name('data-pekerja');
+    Route::post('/filter-pekerja', [MasterPekerjaController::class, 'filter_pekerja'])->name('filter-pekerja');
 
     Route::get('/sign-out', [Auth::class, 'signout'])->name('sign-out');
     Route::get('/book-rooms', [HomeController::class, 'book_rooms'])->name('book-rooms');
@@ -41,6 +44,7 @@ Route::middleware([CheckAuth::class])->group(function () {
     Route::post('/get-kursi', [ActionController::class, 'get_kursi'])->name('get-kursi');
     Route::post('/get-kursi-data', [ActionController::class, 'get_kursi_data'])->name('get-kursi-data');
     Route::post('/get-template', [ActionController::class, 'get_template'])->name('get-template');
+    Route::post('/get-departemen', [ActionController::class, 'get_departemen'])->name('get-departemen');
     Route::get('/data-booking', [HomeController::class, 'data_booking'])->name('data-booking');
     Route::get('/my-account', [HomeController::class, 'my_account'])->name('my-account');
 
