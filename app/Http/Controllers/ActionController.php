@@ -84,29 +84,33 @@ class ActionController extends Controller
 
         $insertData = [
             'kodeBooking' => $this->quickRandom(),
-            'user' => $getUser[0]->ID,
+            'nomorPekerja' => $getSession['user_nopek'],
             'direktorat' => $data->direktorat,
             'fungsi' => $data->fungsi,
             'kursi' => $idKursi,
-            'tglPemakaian' => $data->tglPakai,
+            'tglMulai' => $data->tglStart,
+            'tglSelesai' => $data->tglFinish,
             'tipe' => $data->tipe_pakai,
             'jamMulai' => $data->jam_mulai,
             'jamSelesai' => $data->jam_selesai,
             'keterangan' => $data->keterangan,
-            'status' => '0',
             'createdby' => $getUser[0]->userid
         ];
 
         // print_r($insertData);
         // die;
 
-        $action = DB::table('trx_bookingkursi')->insert($insertData);
+        $action = DB::table('trx_bookingkursi')->insertGetId($insertData);
 
-        if ($action) {
+        $updatedData= [
+            'status' => 2
+        ];
+        $action_mKursi = DB::table('m_kursi')->where('ID', $idKursi)->update($updatedData);
+        if ($action > 0) {
             $notif = [
                 'status' => 'success',
                 'message' => 'Save data success!',
-                'id' => $id = DB::getPdo()->lastInsertId(),
+                'id' => $action,
                 'alert' => 'success'
             ];
             echo json_encode($notif);
