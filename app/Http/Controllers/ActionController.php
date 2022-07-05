@@ -24,6 +24,17 @@ class ActionController extends Controller
         return json_encode($getFungsi);
     }
 
+    public function get_departemen()
+    {
+        $id = json_decode($_POST['datanya']);
+
+        $getDepartemen = DB::table('ref_departemen')
+            ->where('id_fungsi', $id)
+            ->get();
+
+        return json_encode($getDepartemen);
+    }
+
     public function get_kursi()
     {
         $id = json_decode($_POST['datanya']);
