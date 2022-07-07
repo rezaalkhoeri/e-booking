@@ -37,6 +37,9 @@ class Auth extends Controller
                 return;
             }
 
+            $role = $get_member[0]->role;
+            $id_user = $get_member[0]->ID;
+
             //LDAP
             $params = [
                 "UserName"         => $input_email,
@@ -68,10 +71,14 @@ class Auth extends Controller
                     );
 
                     Session::put('user_access', $user_access);
+                    Session::put('role', $role);
+                    Session::put('id_user', $id_user);
+
                     $notif = [
                         'status' => 'success',
                         'message' => 'Login berhasil.',
-                        'alert' => 'success'
+                        'alert' => 'success',
+                        'role' => $role
                     ];
                     echo json_encode($notif);
                     return;
@@ -147,6 +154,8 @@ class Auth extends Controller
                 );
 
                 Session::put('user_access', $user_access);
+                Session::put('role', 'Pekerja');
+                Session::put('id_user', 0);
 
                 $notif = [
                     'status' => 'success',
@@ -186,7 +195,7 @@ class Auth extends Controller
     public function checkExistMemberLDAP($email)
     {
         $getData = DB::table('users')
-            ->where('email', $email)
+            ->where('userid', $email)
             ->get();
 
         return $getData;

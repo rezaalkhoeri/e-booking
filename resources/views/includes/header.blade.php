@@ -24,14 +24,13 @@
         <li class="nav-item @if(\Request::is('home')) active @endif"><a href="{{ route('home') }}" class="nav-link">Beranda</a></li>
         @if(Session::get('role') == 'Pekerja')
         <li class="nav-item @if(\Request::is('request-wfo')) active @endif"><a href="{{ route('request-wfo') }}" class="nav-link">Request WFO</a></li>
+        @endif
+        @if(Session::get('role') == 'Approver' || Session::get('role') == 'Pekerja')
         <li class="nav-item @if(\Request::is('list-approval')) active @endif"><a href="{{ route('list-approval') }}" class="nav-link">Monitoring Approval</a></li>
         @endif
         <li class="nav-item @if(\Request::is('book-seat')) active @endif"><a href="{{ route('book-seat') }}" class="nav-link">Reservasi Kursi</a></li>
         <li class="nav-item @if(\Request::is('book-rooms')) active @endif"><a href="{{ route('book-rooms') }}" class="nav-link">Reservasi R.Meeting</a></li>
         <!-- <li class="nav-item @if(\Request::is('rooms')) active @endif"><a href="{{ route('rooms') }}" class="nav-link">Daftar Ruang Meeting</a></li> -->
-        @if(Session::get('role') == 'Pekerja')
-        <li class="nav-item @if(\Request::is('history-reservasi')) active @endif"><a href="{{ route('history-reservasi') }}" class="nav-link">History Reservasi</a></li>
-        @endif
         @if(Session::has('user_access'))
         <li class="nav-item @if(\Request::is('my-account')) active @endif"><a href="{{ route('my-account') }}" class="nav-link">My Account</a></li>
         <li class="nav-item @if(\Request::is('sign-out')) active @endif"><a href="{{ route('sign-out') }}" class="nav-link"><i class="fa fa-sign-out"></i></a></li>

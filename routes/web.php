@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\API\V1\BorrowRoomApiController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ApprovalController;
 use App\Http\Controllers\ActionController;
 use App\Http\Controllers\KursiController;
 use App\Http\Controllers\ReservasiController;
@@ -46,12 +47,13 @@ Route::middleware([CheckAuth::class])->group(function () {
     Route::post('/submit-wfo', [PekerjaController::class, 'submit_wfo'])->name('submit-wfo');
     Route::post('/get-atasan-fungsi', [PekerjaController::class, 'get_atasan_fungsi'])->name('get-atasan-fungsi');
 
-    Route::get('/list-approval', [HomeController::class, 'list_approval'])->name('list-approval');
+    /** Menu Approval Atasan */
+    Route::get('/list-approval', [ApprovalController::class, 'list_approval'])->name('list-approval');
+    Route::post('/get-data-approval', [ApprovalController::class, 'get_data_approval'])->name('get-data-approval');
+    Route::post('/post-status-approval', [ApprovalController::class, 'post_status_approval'])->name('post-status-approval');
 
     Route::get('/book-rooms', [HomeController::class, 'book_rooms'])->name('book-rooms');
     Route::get('/book-seat', [HomeController::class, 'book_seat'])->name('book-seat');
-    Route::get('/history-reservasi', [HomeController::class, 'history_reservasi'])->name('history-reservasi');
-
 
     Route::post('/get-fungsi', [ActionController::class, 'get_fungsi'])->name('get-fungsi');
     Route::post('/get-kursi', [ActionController::class, 'get_kursi'])->name('get-kursi');
