@@ -12,6 +12,7 @@
 <link rel="stylesheet" href="{{ asset('admin/assets/modules/select2/dist/css/select2.css')}}">
 <link rel="stylesheet" href="{{ asset('admin/assets/modules/bootstrap-daterangepicker/daterangepicker.css')}}">
 <link rel="stylesheet" href="{{ asset('admin/assets/modules/bootstrap-timepicker/css/bootstrap-timepicker.min.css')}}">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css">
 
 
 <!-- Template CSS -->
