@@ -9,6 +9,7 @@ use App\Http\Middleware\CheckAuth;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\BookingKursi;
 use App\Http\Controllers\Admin\MasterPekerjaController;
+use App\Http\Controllers\Admin\UserManajemenController;
 
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Route;
@@ -36,7 +37,8 @@ Route::middleware([CheckAuth::class])->group(function () {
     Route::get('input-wfo', [BookingKursi::class, 'input_pekerja_wfo'])->name('input-wfo');
     Route::get('data-pekerja', [MasterPekerjaController::class, 'index'])->name('data-pekerja');
     Route::post('/filter-pekerja', [MasterPekerjaController::class, 'filter_pekerja'])->name('filter-pekerja');
-
+    Route::post('/add-user', [UserManajemenController::class, 'add_pekerja'])->name('add-user');
+    Route::get('/user-manajemen', [UserManajemenController::class, 'index'])->name('user-manajemen');
     Route::get('/sign-out', [Auth::class, 'signout'])->name('sign-out');
     Route::get('/book-rooms', [HomeController::class, 'book_rooms'])->name('book-rooms');
     Route::get('/book-seat', [HomeController::class, 'book_seat'])->name('book-seat');
