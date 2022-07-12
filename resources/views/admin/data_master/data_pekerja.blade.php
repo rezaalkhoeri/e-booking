@@ -1,7 +1,7 @@
 @extends('admin.master')
 
 @section('title')
-Input Pekerja WFO
+Data Pekerja
 @endsection
 
 @section('content')
@@ -12,19 +12,19 @@ Input Pekerja WFO
                 <h1>BIODATA PEKERJA</h1>
             </div>
             <div class="col-3">
-                Tanggal Hari ini: <b class="" id="date"></b> 
+                Tanggal Hari ini: <b class="" id="date"></b>
             </div>
         </div>
-        
+
     </div>
-    
+
     <div class="section-body">
         <div class="row">
             <div class="col-12 col-md-12 col-lg-12">
                 <div class="card">
                     <div class="card-header">
                         <h4>Filter Data</h4>
-                        
+
                     </div>
                     <div class="card-body">
                         <div class="row">
@@ -53,7 +53,7 @@ Input Pekerja WFO
                                 <button type="button" id="filterButton" class="btn btn-primary"> Tampilkan </button>
                             </div>
                         </div>
-                        
+
                     </div>
                 </div>
             </div>
@@ -65,44 +65,44 @@ Input Pekerja WFO
                     <div class="card-header">
                         <h4>Data Pekerja</h4>
                     </div>
-                    <div class="card-body">   
-                                
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <table id="table-2" class="table table-striped">
-                                            <thead>
-                                                <tr role="row">
-                                                    <th>Nomor Pekerja</th>
-                                                    <th>Nama</th>
-                                                    <th>Jabatan</th>
-                                                    <th>Direktorat</th>
-                                                    <th>Fungsi</th>
-                                                    <th>Departemen</th>
-                                                    <th>Status Absen</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="listPekerja">
-                                                @foreach($getPekerja as $gp)
-                                                <tr>
-                                                    <td>{{$gp->nomorPekerja}}</td>
-                                                    <td>{{$gp->namaLengkap}}</td>
-                                                    <td>{{$gp->jabatan}}</td>
-                                                    <td>{{$gp->direktorat}}</td>
-                                                    <td>{{$gp->fungsi}}</td>
-                                                    <td>{{$gp->departemen}}</td>
-                                                    <td>
-                                                        @if($gp->tgl == '')
-                                                            Belum Absen
-                                                        @else
-                                                            Sudah Absen
-                                                        @endif
-                                                    </td>
-                                                </tr>
-                                                @endforeach
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
+                    <div class="card-body">
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <table id="table-2" class="table table-striped">
+                                    <thead>
+                                        <tr role="row">
+                                            <th>Nomor Pekerja</th>
+                                            <th>Nama</th>
+                                            <th>Jabatan</th>
+                                            <th>Direktorat</th>
+                                            <th>Fungsi</th>
+                                            <th>Departemen</th>
+                                            <th>Status Absen</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="listPekerja">
+                                        @foreach($getPekerja as $gp)
+                                        <tr>
+                                            <td>{{$gp->nomorPekerja}}</td>
+                                            <td>{{$gp->namaLengkap}}</td>
+                                            <td>{{$gp->jabatan}}</td>
+                                            <td>{{$gp->direktorat}}</td>
+                                            <td>{{$gp->fungsi}}</td>
+                                            <td>{{$gp->departemen}}</td>
+                                            <td>
+                                                @if($gp->tgl == '')
+                                                Belum Absen
+                                                @else
+                                                Sudah Absen
+                                                @endif
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
 
                     </div>
                 </div>
@@ -115,7 +115,7 @@ Input Pekerja WFO
 <script>
     $.ajaxSetup({
         headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')    
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     })
     $("#table-2").DataTable();
@@ -179,7 +179,7 @@ Input Pekerja WFO
             }
         });
     });
-    $(document).on('click', '#filterButton', function(e){
+    $(document).on('click', '#filterButton', function(e) {
         var direktorat = $('#direktorat').val();
         var fungsi = $('#fungsi').val();
         var departemen = $('#departemen').val();
@@ -199,31 +199,31 @@ Input Pekerja WFO
             beforeSend: function() {
 
             },
-            success: function(data){
+            success: function(data) {
                 response = JSON.parse(JSON.stringify(data));
                 console.log(response);
 
                 var html = "";
                 if (data.length) {
 
-                    $.each(data, function(key, value){
+                    $.each(data, function(key, value) {
                         if (value.tgl == null) {
                             $tgl = "Belum Absen";
-                        }else{
+                        } else {
                             $tgl = "Sudah Absen";
                         }
                         html += '<tr>'
-                        html += '<td>'+ value.nomorPekerja +'</td>';
-                        html += '<td>'+ value.namaLengkap +'</td>';
-                        html += '<td>'+ value.jabatan +'</td>';
-                        html += '<td>'+ value.direktorat +'</td>';
-                        html += '<td>'+ value.fungsi +'</td>';
-                        html += '<td>'+ value.departemen +'</td>';
-                        html += '<td>'+ $tgl +'</td>';
+                        html += '<td>' + value.nomorPekerja + '</td>';
+                        html += '<td>' + value.namaLengkap + '</td>';
+                        html += '<td>' + value.jabatan + '</td>';
+                        html += '<td>' + value.direktorat + '</td>';
+                        html += '<td>' + value.fungsi + '</td>';
+                        html += '<td>' + value.departemen + '</td>';
+                        html += '<td>' + $tgl + '</td>';
                         html += '</tr>'
                     });
-                    
-                }else{
+
+                } else {
                     html += '<td colspan="7">NO RECORD FOUND</td>';
                 }
                 tabel_pekerja.clear().draw();
@@ -233,7 +233,6 @@ Input Pekerja WFO
             }
         })
     })
-    
 </script>
 @endsection
 @endsection
