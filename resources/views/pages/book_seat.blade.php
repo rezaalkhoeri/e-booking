@@ -1,11 +1,24 @@
 @extends('layouts.default')
 @section('content')
+<?php if($statusApproval == 'Not Exist') { ?>
+    <div class="col-md-12">
+    <div class="wrapper">
+        <div class="row no-gutters">
+            <div class="col-lg-12 col-md-7 d-flex align-items-stretch">
+                <div class="alert danger-alert">
+                    <h3>Harap Melakukan Request WFO kepada Atasan atau menghubungi Admin Fungsi untuk mendaftarkan Status Pekerja WFO</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<?php } else { ?>
 <div class="col-md-12">
     <div class="wrapper">
         <div class="row no-gutters">
             <div class="col-lg-12 col-md-7 d-flex align-items-stretch">
                 <div class="contact-wrap w-100 p-md-5 p-4">
-                    <h3 class="mb-4">Booking Kursi</h3>
+                    <h3 class="mb-4">Reservasi Kursi</h3>
                     <!-- <form method="POST" id="contactForm" name="contactForm" class="contactForm"> -->
                     <div class="row contactForm">
                         <div class="col-md-6">
@@ -13,7 +26,7 @@
                                 <label class="label" for="namWWe">Direktorat</label>
                                 <div class="form-field">
                                     <div class="select-wrap">
-                                        <select class="form-control direktorat" name="direktorat" id="direktorat">
+                                        <select class="form-control" name="direktorat" id="direktorat">
                                             <option value=""> -- Pilih Direktorat -- </option>
                                             @foreach($getDirektorat as $row)
                                             <option value="{{$row->ID}}"> {{$row->nama}} </option>
@@ -28,8 +41,8 @@
                                 <label class="label" for="namWWe">Fungsi</label>
                                 <div class="form-field">
                                     <div class="select-wrap">
-                                        <select class="form-control fungsi" name="fungsi" id="fungsi">
-                                            <option value=""></option>
+                                        <select class="form-control" name="fungsi" id="fungsi">
+                                            <option value=""> -- Harap pilih Direktorat terlebih dahulu -- </option>
                                         </select>
                                     </div>
                                 </div>
@@ -40,13 +53,24 @@
                                 <label class="label" for="namWWe">Pilih Kursi</label>
                                 <div class="form-field">
                                     <div class="select-wrap">
-                                        <select class="form-control kursi" name="kursi" id="kursi">
-                                            <option value=""></option>
+                                        <select class="form-control" name="kursi" id="kursi">
+                                            <option value="">-- Harap pilih Direktorat & Fungsi terlebih dahulu --</option>
                                         </select>
                                     </div>
                                 </div>
+                                
                             </div>
+                        </div>
 
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="label" for="namWWe"></label>
+                                <div class="form-field">
+                                    <div class="select-wrap">
+                                        <button type="button" class="btn btn-success" id="lihatKursi"> Lihat Denah Kursi</button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                         <!-- <div class="col-md-3">
@@ -55,16 +79,24 @@
                                 <input type="text" class="form-control" name="kursi" id="kursi" readonly>
                             </div>
                         </div>
+                        
                         <div class="col-md-3">
                             <label class="label" for="email"></label>
                             <div class="form-group">
                                 <button type="button" class="btn btn-primary" id="lihatKursi"> Lihat Kursi</button>
                             </div>
-                        </div> -->
+                        </div>
+                        -->
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="label" for="name">Tanggal Pemakaian</label>
-                                <input type="date" class="form-control" name="tglPakai" id="tglPakai">
+                                <label class="label" for="name">Tanggal Start Pemakaian</label>
+                                <input type="date" class="form-control" name="tglStart" id="tglStart">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="label" for="name">Tanggal Finish Pemakaian</label>
+                                <input type="date" class="form-control" name="tglFinish" id="tglFinish">
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -103,7 +135,7 @@
 
                         <div class="col-md-12">
                             <div class="form-group">
-                                <button type="button" id="submitBooking" class="btn btn-primary">Booking</button>
+                                <button type="button" id="submitBooking" class="btn btn-primary">Submit Reservasi Kursi</button>
                             </div>
                         </div>
                     </div>
@@ -113,12 +145,20 @@
         </div>
     </div>
 </div>
+<input type="hidden" id="tipe_form" name="tipe_form" value="<?php echo $tipeForm; ?>">
 
 <input type="hidden" id="box_kursi" name="box_kursi">
 <div class="modal fade" id="modalKursi" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
+                <h5 class="modal-title">Denah Kursi</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <iframe id="ifDokumen" class="if"></iframe>
+            </div>
+            <!-- <div class="modal-header">
                 <h3>Pilih Kursi</h3>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -136,15 +176,18 @@
             <div class=" modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary">Pilih</button>
-            </div>
+            </div> -->
         </div>
     </div>
 </div>
-
+<?php } ?>
+@endsection
 @section('scripts')
-<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<link rel="stylesheet" href="{{ url('/css/alert-div.css') }}">
+
+<script src="{{ url('Scripts/sweetalert.min.js') }}"></script>
+<script src="{{ url('Scripts/pages/Helpers.js')}}"></script>
+<script src="{{ url('Scripts/pages/ReservasiKursi.js')}}"></script>
 <script>
     $.ajaxSetup({
         headers: {
@@ -152,194 +195,12 @@
         }
     });
 
-    $("#lihatKursi").click(function(e) {
-        var kursi = $('#box_kursi').val();
-        if (kursi == '') {
-            Swal.fire(
-                'Get Kursi Failed!',
-                'Data fungsi belum dipilih',
-                'warning'
-            )
-        } else {
-            $.ajax({
-                url: "{{ route('get-template')}}",
-                method: "POST",
-                data: "datanya=" + JSON.stringify(kursi),
-                dataType: 'json',
-                beforeSend: function() {
-
-                },
-                success: function(data) {
-                    $("#kursi_template").empty()
-                    $("#kursi_template").append(data)
-                    $("#modalKursi").modal('show')
-                }
-            });
-
-        }
-    })
-
-    $('.direktorat').select2({
-        placeholder: 'Select an option'
-    });
-    $('.fungsi').select2({
-        placeholder: 'Select an option'
-    });
-    $('.kursi').select2({
-        placeholder: 'Select an option'
-    });
-
-    $("#direktorat").change(function() {
-        var direktorat = $('#direktorat').val();
-        $.ajax({
-            url: "{{ route('get-fungsi')}}",
-            method: "POST",
-            data: "datanya=" + JSON.stringify(direktorat),
-            dataType: 'json',
-            beforeSend: function() {
-
-            },
-            success: function(data) {
-                fungsi = {};
-                for (let i = 0; i < data.length; i++) {
-                    fungsi[data[i].ID] = data[i].nama
-                }
-                $('#fungsi').find('option')
-                    .remove()
-                    .end()
-                    .append('<option value=""> -- Pilih Fungsi -- </option>')
-
-                $.each(fungsi, function(val, text) {
-                    $('#fungsi').append(
-                        $('<option></option>').val(val).html(text)
-                    );
-                });
-            }
-        });
-    });
-
-    $("#fungsi").change(function() {
-        var fungsi = $('#fungsi').val();
-        $.ajax({
-            url: "{{ route('get-kursi-data')}}",
-            method: "POST",
-            data: "datanya=" + JSON.stringify(fungsi),
-            dataType: 'json',
-            beforeSend: function() {
-
-            },
-            success: function(data) {
-                kursi = {};
-                for (let i = 0; i < data.length; i++) {
-                    kursi[data[i].ID] = data[i].kode + ' | ' + data[i].nama
-                }
-                $('#kursi').find('option')
-                    .remove()
-                    .end()
-                    .append('<option value=""> -- Pilih Kursi -- </option>')
-
-                $.each(kursi, function(val, text) {
-                    $('#kursi').append(
-                        $('<option></option>').val(val).html(text)
-                    );
-                });
-            }
-        });
-    });
-
-    // $("#fungsi").change(function() {
-    //     var fungsi = $('#fungsi').val();
-    //     $.ajax({
-    //         url: "{{ route('get-kursi')}}",
-    //         method: "POST",
-    //         data: "datanya=" + JSON.stringify(fungsi),
-    //         dataType: 'json',
-    //         beforeSend: function() {
-
-    //         },
-    //         success: function(data) {
-    //             let html = data[0].template;
-    //             $("#box_kursi").val(html)
-    //         }
-    //     });
-    // });
-
-    $("#box_kursi").val("")
-
-    $("#tipe_pakai").change(function() {
-        var tipe_pakai = $('#tipe_pakai').val();
-        if (tipe_pakai == '1') {
-            $("#jam_mulai").val('07:00:00')
-            $("#jam_selesai").val('12:00:00')
-            $("#jam_mulai").prop('readonly', true)
-            $("#jam_selesai").prop('readonly', true)
-        } else if (tipe_pakai == '2') {
-            $("#jam_mulai").val('07:00:00')
-            $("#jam_selesai").val('17:00:00')
-            $("#jam_mulai").prop('readonly', true)
-            $("#jam_selesai").prop('readonly', true)
-        } else if (tipe_pakai == '3') {
-            $("#jam_mulai").val('')
-            $("#jam_selesai").val('')
-            $("#jam_mulai").removeAttr('readonly')
-            $("#jam_selesai").removeAttr('readonly')
-        } else {
-            $("#jam_mulai").val('')
-            $("#jam_selesai").val('')
-            $("#jam_mulai").prop('readonly', true)
-            $("#jam_selesai").prop('readonly', true)
-        }
-    });
-
-    $("#submitBooking").click(function() {
-        var direktorat = $('#direktorat').val()
-        var fungsi = $('#fungsi').val()
-        var kursi = $('#kursi').val()
-        var tglPakai = $('#tglPakai').val()
-        var tipe_pakai = $('#tipe_pakai').val()
-        var jam_mulai = $('#jam_mulai').val()
-        var jam_selesai = $('#jam_selesai').val()
-        var keterangan = $('#keterangan').val()
-
-
-        var data = {}
-        data.direktorat = direktorat;
-        data.fungsi = fungsi;
-        data.kursi = kursi;
-        data.tglPakai = tglPakai;
-        data.tipe_pakai = tipe_pakai;
-        data.jam_mulai = jam_mulai;
-        data.jam_selesai = jam_selesai;
-        data.keterangan = keterangan;
-
-
-        route = "{{route('booking-kursi')}}";
-
-        $.ajax({
-            url: route,
-            type: "POST",
-            data: "datanya=" + JSON.stringify(data),
-            dataType: "json",
-            success: function(data) {
-                if (data.status == 'success') {
-                    let url = "{{route('view-ticket', 'slug' )}}"
-                    url = url.replace('slug', data.id);
-
-                    console.log(url);
-                    swal.fire("Success!", data.message, data.alert)
-                        .then(function() {
-                            location.href = url;
-                        });
-                } else {
-                    swal.fire("Warning!", data.message, data.alert);
-                }
-            },
-            error: function(data) {
-                swal.fire("Error!", "Add data failed!", "error");
-            }
-        });
-    })
+    const url_get_fungsi = '{{ route('get-fungsi')}}';
+    const url_get_kursi_fungsi = '{{ route('get-kursi-data')}}';
+    const url_get_denah = '{{route('get-denah-kursi')}}';
+    const url_post_reservasi_kursi = '{{route('booking-kursi')}}';
+    let url_view_ticket = '{{route('view-ticket', 'slug' )}}';
 </script>
 
-@endsection
+
 @endsection

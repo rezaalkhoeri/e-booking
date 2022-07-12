@@ -164,7 +164,12 @@
                     if (data.status == 'success') {
                         swal.fire("Success!", data.message, data.alert)
                             .then(function() {
-                                location.href = "{{route('admin-index')}}"
+                                if (data.role == "Administrator") {
+                                    location.href = "{{route('admin-index')}}"
+                                } else {
+                                    location.href = "{{route('my-account')}}"
+                                }
+                                
                             });
                     } else {
                         swal.fire("Warning!", data.message, data.alert);

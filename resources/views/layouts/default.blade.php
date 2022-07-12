@@ -5,6 +5,8 @@
     @include('includes.head')
 </head>
 
+<link href="{{ url('css/default.css') }}" rel="stylesheet">
+
 <body>
     @include('includes.header')
 
