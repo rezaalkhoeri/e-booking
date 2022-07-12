@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 
 class BookingKursi extends Controller
 {
@@ -17,5 +18,97 @@ class BookingKursi extends Controller
         ];
 
         return view('admin/booking_kursi/input_pekerja_wfo', compact($return));
+    }
+
+    public function get_pekerja_by_fungsi()
+    {
+        $id_fungsi = json_decode($_POST['datanya']);
+        $getBiodata = DB::connection('absensi')->table('tb_biodata')
+            ->where('fungsi', '=', $id_fungsi)
+            ->get();
+
+        return json_encode($getBiodata);
+    }
+
+    public static function quickRandom($length = 6)
+    {
+        $pool = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+        return substr(str_shuffle(str_repeat($pool, 5)), 0, $length);
+    }
+
+    public function save_pekerja_wfo()
+    {
+        $data = json_decode($_POST['datanya']);
+        $getSession = Session::get('user_access');
+        $getUser = DB::table('users')->where(['userid' => $getSession['user_id']])->get();
+
+        $tgl = explode(' - ', $data->tanggalPakai);
+        $tglStart = $tgl[0];
+        $tglFinish = $tgl[1];
+
+        $getkursi = DB::table('m_kursi')
+            ->select('ID')
+            ->where([
+                'fungsi' => $data->fungsi,
+                'status' => '1'
+            ])->get()->toArray();
+
+
+        $insertData = [];
+        for ($i = 0; $i < count($data->list_wfo); $i++) {
+            array_push($insertData, [
+                'kodeBooking' => $this->quickRandom(),
+                'nomorPekerja' => $data->list_wfo[$i][0],
+                'namaLengkap' => $data->list_wfo[$i][1],
+                'direktorat' => $data->direktorat,
+                'fungsi' => $data->fungsi,
+                'kursi' => $getkursi[$i]->ID,
+                'tglMulai' => $tglStart,
+                'tglSelesai' => $tglFinish,
+                'tipe' => $data->tipePakai,
+                'jamMulai' => date("H:i:s", strtotime($data->jamMulai)),
+                'jamSelesai' => date("H:i:s", strtotime($data->jamSelesai)),
+                'keterangan' => $data->list_wfo[$i][2],
+                'createdby' => $getUser[0]->userid
+            ]);
+        }
+
+        $updatedData = [
+            'status' => 2
+        ];
+
+        $arrNotif = [];
+        for ($i = 0; $i < count($insertData); $i++) {
+            $checkExist = DB::table('trx_bookingkursi')->where('nomorPekerja', $insertData[$i]['nomorPekerja'])->get();
+
+            if (count($checkExist) == 0) {
+                $action = DB::table('trx_bookingkursi')->insert($insertData[$i]);
+                $action_mKursi = DB::table('m_kursi')->where('ID', $insertData[$i]['kursi'])->update($updatedData);
+                array_push($arrNotif, $action);
+            } else {
+                $action = DB::table('trx_bookingkursi')->where('nomorPekerja', $insertData[$i]['nomorPekerja'])->update($insertData[$i]);
+                $action_mKursi = DB::table('m_kursi')->where('ID', $insertData[$i]['kursi'])->update($updatedData);
+                array_push($arrNotif, $action);
+            }
+        }
+
+        if (count(array_unique($arrNotif)) === 1) {
+            $notif = [
+                'status' => 'success',
+                'message' => 'Save data success!',
+                'alert' => 'success'
+            ];
+            echo json_encode($notif);
+            return;
+        } else {
+            $notif = [
+                'status' => 'warning',
+                'message' => 'Save data failed!',
+                'alert' => 'warning'
+            ];
+            echo json_encode($notif);
+            return;
+        }
     }
 }

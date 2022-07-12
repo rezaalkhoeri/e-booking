@@ -18,7 +18,7 @@
 
         /* url("vendor/technext/vacation-rental/images/Poster template Full Color.png") */
         body {
-            background: url("/vendor/technext/vacation-rental/images/rig.jpg");
+            background: url('{{ asset("/vendor/technext/vacation-rental/images/rig.jpg") }}');
             background-size: cover;
             background-position: center center;
             height: 100vh;
@@ -429,8 +429,8 @@
             </div>
             <h2>PDSI Seat Reservation <span class="year-span">2021</span></h1>
                 <div class="details">
-                    <div class="day"><span class="day-span">{{$row->tglPemakaian}}</span></div>
-                    <div class="date"><span class="fulldate-span">{{$row->tglPemakaian}}</span></div>
+                    <div class="day"><span class="day-span">{{$row->tglMulai}}</span></div>
+                    <div class="date"><span class="fulldate-span">{{$row->tglMulai}}</span></div>
                     <div class="code"><span class="code-span">{{$row->kodeKursi}}</span></div>
                     <div class="access">
                         {{$row->fungsi}}
@@ -449,8 +449,8 @@
             <h1>Ticket</h1>
             <h2>PDSI Seat Reservation </h1>
                 <div class="details">
-                    <div class="day"><span class="day-span">{{$row->tglPemakaian}}</span></div>
-                    <div class="date"><span class="fulldate-span">{{$row->tglPemakaian}}</span></div>
+                    <div class="day"><span class="day-span">{{$row->tglMulai}}</span></div>
+                    <div class="date"><span class="fulldate-span">{{$row->tglMulai}}</span></div>
                     <div class="code"><span class="code-span">{{$row->kodeKursi}}</span></div>
                     <div class="access" style="font-size: 12px;">
                         {{$row->fungsi}}

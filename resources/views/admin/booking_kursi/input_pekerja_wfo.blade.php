@@ -12,7 +12,7 @@ Input Pekerja WFO
     <div class="section-body">
         <div class="row">
             <div class="col-12 col-md-12 col-lg-12">
-                <div class="card">
+                <div class="card card-primary">
                     <div class="card-header">
                         <h4>Data Booking</h4>
                     </div>
@@ -43,7 +43,7 @@ Input Pekerja WFO
                                             <i class="fas fa-calendar"></i>
                                         </div>
                                     </div>
-                                    <input type="text" class="form-control daterange">
+                                    <input type="text" class="form-control daterange" id="tanggalPakai">
                                 </div>
                             </div>
                             <div class="form-group col-6">
@@ -65,7 +65,7 @@ Input Pekerja WFO
                                             <i class="fas fa-clock"></i>
                                         </div>
                                     </div>
-                                    <input type="text" id="jam_mulai" class="form-control" readonly="readonly">
+                                    <input type="text" id="jam_mulai" class="form-control timepicker" readonly="readonly">
                                 </div>
                             </div>
                             <div class="form-group col-6">
@@ -76,7 +76,7 @@ Input Pekerja WFO
                                             <i class="fas fa-clock"></i>
                                         </div>
                                     </div>
-                                    <input type="text" id="jam_selesai" class="form-control" readonly="readonly">
+                                    <input type="text" id="jam_selesai" class="form-control timepicker" readonly="readonly">
                                 </div>
                             </div>
                         </div>
@@ -86,30 +86,27 @@ Input Pekerja WFO
         </div>
 
         <div class="row">
-            <div class="col-12 col-md-12 col-lg-12">
-                <div class="card">
+            <div class="col-8 col-md-8 col-lg-8">
+                <div class="card card-primary">
                     <div class="card-header">
                         <h4>Input Data Pekerja</h4>
                     </div>
                     <div class="card-body">
                         <div class="row">
-                            <div class="form-group col-6">
+                            <div class="form-group col-12">
                                 <label>Pilih Pekerja</label>
                                 <div class="input-group">
-                                    <select class="custom-select" id="inputGroupSelect04">
-                                        <option selected="">Choose...</option>
-                                        <option value="1">One</option>
-                                        <option value="2">Two</option>
-                                        <option value="3">Three</option>
+                                    <select class="custom-select select2" id="pekerja">
+                                        <option value="">-- Pilih Pekerja -- </option>
                                     </select>
                                     <div class="input-group-append">
-                                        <button class="btn btn-primary" type="button">Tambah Pekerja</button>
+                                        <button class="btn btn-primary" id="tambah_button" type="button">Tambah Pekerja</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="form-group col-6">
+                            <div class="form-group col-12">
                                 <label>Import Excel</label>
                                 <div class="custom-file">
                                     <input type="file" class="custom-file-input" id="customFile">
@@ -120,77 +117,87 @@ Input Pekerja WFO
                     </div>
                 </div>
             </div>
+            <div class="col-4 col-md-4 col-lg-4">
+                <div class="card card-statistic-2 card-primary">
+                    <div class="card-stats">
+                        <div class="card-stats-title" style="color:#6777ef">
+                            <h6> Informasi Kursi </h6>
+                        </div>
+                        <div class="card-stats-title text-success text-small font-600-bold" id="ik_fungsi"> Fungsi </div>
+                        <div class="card-stats-title text-success text-small font-600-bold" id="ik_tanggal"> Tanggal </div>
+                        <div class="card-stats-items">
+                            <div class="card-stats-item">
+                                <div class="card-stats-item-count" id="ik_tersedia">-</div>
+                                <div class="card-stats-item-label">Tersedia</div>
+                            </div>
+                            <div class="card-stats-item">
+                                <div class="card-stats-item-count" id="ik_dibooking">-</div>
+                                <div class="card-stats-item-label">Dibooking</div>
+                            </div>
+                            <div class="card-stats-item">
+                                <div class="card-stats-item-count" id="ik_digunakan">-</div>
+                                <div class="card-stats-item-label">Digunakan</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-icon shadow-primary bg-primary">
+                        <i class="fas fa-chair"></i>
+                    </div>
+                    <div class="row">
+                        <div class="card-wrap">
+                            <div class="card-header">
+                                <h4>Total</h4>
+                            </div>
+                            <div class="card-body" id="ik_total">
+                                -
+                            </div>
+                        </div>
+                        <div class="card-wrap">
+                            <div class="card-header">
+                                <h4>Presentase</h4>
+                            </div>
+                            <div class="card-body" id="ik_presentase">
+                                -
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
         </div>
 
         <div class="row">
             <div class="col-12">
-                <div class="card">
+                <div class="card card-primary">
                     <div class="card-header">
-                        <h4>Data Pekerja</h4>
+                        <h4>List Pekerja WFO</h4>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <div id="table-2_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer">
-                                <div class="row">
-                                    <div class="col-sm-12 col-md-6">
-                                        <div class="dataTables_length" id="table-2_length"><label>Show <select name="table-2_length" aria-controls="table-2" class="form-control form-control-sm">
-                                                    <option value="10">10</option>
-                                                    <option value="25">25</option>
-                                                    <option value="50">50</option>
-                                                    <option value="100">100</option>
-                                                </select> entries</label></div>
-                                    </div>
-                                    <div class="col-sm-12 col-md-6">
-                                        <div id="table-2_filter" class="dataTables_filter"><label>Search:<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="table-2"></label></div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <table class="table table-striped dataTable no-footer" id="table-2" role="grid" aria-describedby="table-2_info">
-                                            <thead>
-                                                <tr role="row">
-                                                    <th class="text-center sorting_asc" rowspan="1" colspan="1" aria-label="" style="width: 27.525px;">#</th>
-                                                    <th class="sorting" tabindex="0" aria-controls="table-2" rowspan="1" colspan="1" aria-label="Task Name: activate to sort column ascending" style="width: 92.3px;">Nomor Pekerja</th>
-                                                    <th class="sorting_disabled" rowspan="1" colspan="1" aria-label="Progress" style="width: 53.0125px;">Nama Pekerja</th>
-                                                    <th class="sorting" tabindex="0" aria-controls="table-2" rowspan="1" colspan="1" aria-label="Action: activate to sort column ascending" style="width: 44.325px;">Keterangan</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr role="row" class="odd">
-                                                    <td class="sorting_1">
-                                                        <div class="custom-checkbox custom-control">
-                                                            <input type="checkbox" data-checkboxes="mygroup" class="custom-control-input" id="checkbox-1">
-                                                            <label for="checkbox-1" class="custom-control-label">&nbsp;</label>
-                                                        </div>
-                                                    </td>
-                                                    <td>280004</td>
-                                                    <td class="align-middle">
-                                                        Reza Aji Alkhoeri
-                                                    </td>
-                                                    <td>
-                                                        <textarea class="form-control"></textarea>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-12 col-md-5">
-                                        <div class="dataTables_info" id="table-2_info" role="status" aria-live="polite">Showing 1 to 4 of 4 entries</div>
-                                    </div>
-                                    <div class="col-sm-12 col-md-7">
-                                        <div class="dataTables_paginate paging_simple_numbers" id="table-2_paginate">
-                                            <ul class="pagination">
-                                                <li class="paginate_button page-item previous disabled" id="table-2_previous"><a href="#" aria-controls="table-2" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li>
-                                                <li class="paginate_button page-item active"><a href="#" aria-controls="table-2" data-dt-idx="1" tabindex="0" class="page-link">1</a></li>
-                                                <li class="paginate_button page-item next disabled" id="table-2_next"><a href="#" aria-controls="table-2" data-dt-idx="2" tabindex="0" class="page-link">Next</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            <table class="table table-striped" id="list_wfo">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">
+                                            <div class="custom-checkbox custom-control">
+                                                <input type="checkbox" data-checkboxes="mygroup" data-checkbox-role="dad" class="custom-control-input" id="checkbox-all">
+                                                <label for="checkbox-all" class="custom-control-label">&nbsp;</label>
+                                            </div>
+                                        </th>
+                                        <th>No Pekerja</th>
+                                        <th>Nama Pekerja</th>
+                                        <th>Keterangan</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
                         </div>
+                    </div>
+                    <div class="card-footer">
+                        <button type="button" class="btn btn-danger" id="hapusButton">Hapus Daftar Pekerja</button>
+                        <button type="button" class="btn btn-primary" id="simpanButton">Simpan Daftar WFO</button>
                     </div>
                 </div>
             </div>
@@ -206,6 +213,33 @@ Input Pekerja WFO
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
+
+    function get_informasi_kursi(params) {
+        let data = {}
+        data.fungsi = params
+        $.ajax({
+            url: "{{ route('get-info-kursi')}}",
+            method: "POST",
+            data: "datanya=" + JSON.stringify(data),
+            dataType: 'json',
+            beforeSend: function() {
+
+            },
+            success: function(data) {
+                if (data.status == 'success') {
+                    $('#ik_fungsi').text(data.dataKursi.fungsi)
+                    $('#ik_tanggal').text(data.dataKursi.tanggal)
+                    $('#ik_tersedia').text(data.dataKursi.tersedia)
+                    $('#ik_dibooking').text(data.dataKursi.dibooking)
+                    $('#ik_digunakan').text(data.dataKursi.digunakan)
+                    $('#ik_total').text(data.dataKursi.total)
+                    $('#ik_presentase').text((data.dataKursi.presentase).toFixed(1) + '%')
+                } else {
+                    swal.fire("Warning!", data.message, data.status);
+                }
+            }
+        });
+    }
 
     $("#direktorat").change(function() {
         var direktorat = $('#direktorat').val();
@@ -236,29 +270,229 @@ Input Pekerja WFO
         });
     });
 
+    $("#fungsi").change(function() {
+        var fungsi = $('#fungsi').val();
+        $.ajax({
+            url: "{{ route('get-pekerja-by-fungsi')}}",
+            method: "POST",
+            data: "datanya=" + JSON.stringify(fungsi),
+            dataType: 'json',
+            beforeSend: function() {
+
+            },
+            success: function(data) {
+                pekerja = {};
+                for (let i = 0; i < data.length; i++) {
+                    pekerja[data[i].ID] = data[i].nomorPekerja + ' | ' + data[i].namaLengkap
+                }
+                $('#pekerja').find('option')
+                    .remove()
+                    .end()
+                    .append('<option value=""> -- Pilih Pekerja -- </option>')
+
+                $.each(pekerja, function(val, text) {
+                    $('#pekerja').append(
+                        $('<option></option>').val(val).html(text)
+                    );
+                });
+
+                get_informasi_kursi(fungsi)
+            }
+        });
+    });
+
     $("#tipe_pakai").change(function() {
         var tipe_pakai = $('#tipe_pakai').val();
         if (tipe_pakai == '1') {
             $("#jam_mulai").val('07:00 AM')
-            $("#jam_selesai").val('12:00 AM')
+            $("#jam_selesai").val('12:00 PM')
             $("#jam_mulai").prop('readonly', true)
             $("#jam_selesai").prop('readonly', true)
+
         } else if (tipe_pakai == '2') {
             $("#jam_mulai").val('07:00 AM')
-            $("#jam_selesai").val('17:00 AM')
+            $("#jam_selesai").val('04:00 PM')
             $("#jam_mulai").prop('readonly', true)
             $("#jam_selesai").prop('readonly', true)
+
         } else if (tipe_pakai == '3') {
-            $("#jam_mulai").timepicker()
-            $("#jam_selesai").timepicker()
+            $("#jam_mulai").prop('readonly', false)
+            $("#jam_selesai").prop('readonly', false)
         } else {
             $("#jam_mulai").prop('readonly', true)
             $("#jam_selesai").prop('readonly', true)
-            $("#jam_mulai").timepicker().destroy()
-            $("#jam_selesai").timepicker().destroy()
-
         }
     });
+
+    $("#tambah_button").click(function() {
+        let pekerja = $('#pekerja')
+
+        if (pekerja.val() == '') {
+            swal.fire("Warning!", "Data Pekerja Kosong!", "warning");
+        } else {
+            let jumlahRow = tabel_pekerja.rows().count();
+
+            if (jumlahRow >= $('#ik_tersedia').text()) {
+                swal.fire("Warning!", "Jumlah pekerja WFO sudah memenuhi batas maksimal!", "warning");
+            } else {
+                let pekerjaValue = pekerja[0].selectedOptions[0].value
+                let pekerjaText = pekerja[0].selectedOptions[0].text
+                let split = pekerjaText.split(" | ")
+
+                function checkValue(value, arr) {
+                    var status = 'Not exist';
+
+                    for (var i = 0; i < arr.length; i++) {
+                        var name = arr[i];
+                        if (name == value) {
+                            status = 'Exist';
+                            break;
+                        }
+                    }
+
+                    return status;
+                }
+
+                let getData = tabel_pekerja.column(1).data()
+                let check = checkValue(split[0], getData)
+
+                if (check == 'Exist') {
+                    swal.fire("Warning!", "Data pekerja sudah ditambahkan!", "warning");
+                } else {
+
+                    let no = tabel_pekerja.rows().count();
+
+                    function buttonCheck(value, row) {
+                        let checkHTML = '<div class="custom-checkbox custom-control">'
+                        checkHTML += '<input type="checkbox" value="' + value + '" data-checkboxes="mygroup" class="custom-control-input checkbox" id="checkbox-' + row + '">'
+                        checkHTML += '<label for="checkbox-' + row + '" class="custom-control-label">&nbsp;</label>'
+                        checkHTML += '</div>'
+
+                        return checkHTML;
+                    }
+
+                    tabel_pekerja.row.add([
+                        buttonCheck(pekerjaValue, (no + 1)),
+                        split[0],
+                        split[1],
+                        'WFO Mandatory',
+                    ]).node().id = 'rowID-' + (no + 1)
+
+                    tabel_pekerja.draw(false);
+                }
+            }
+        }
+
+    });
+
+    function removeA(arr) {
+        var what, a = arguments,
+            L = a.length,
+            ax;
+        while (L > 1 && arr.length) {
+            what = a[--L];
+            while ((ax = arr.indexOf(what)) !== -1) {
+                arr.splice(ax, 1);
+            }
+        }
+        return arr;
+    }
+
+    let listCheckbox = [];
+    $('#list_wfo').on('change', '.checkbox', function(e) {
+        let index = tabel_pekerja.row($(this).parents('tr').get(0)).index()
+        if (e.target.checked == true) {
+            listCheckbox.push(index + 1)
+            console.log(listCheckbox);
+        } else {
+            removeA(listCheckbox, (index + 1));
+            $('#checkbox-all').prop('checked', false);
+            console.log(listCheckbox);
+        }
+    })
+
+    $('#list_wfo').on('change', '#checkbox-all', function(e) {
+        if (e.target.checked !== true) {
+            listCheckbox = [];
+        }
+    })
+
+    $('#hapusButton').click(function() {
+        if ($('#checkbox-all').is(':checked')) {
+            tabel_pekerja.clear().draw();
+        } else {
+            for (let i = 0; i < listCheckbox.length; i++) {
+                tabel_pekerja.rows('#rowID-' + listCheckbox[i]).remove().draw();
+            }
+            listCheckbox = [];
+            console.log(listCheckbox);
+
+            let getAll = tabel_pekerja.rows().data();
+            tabel_pekerja.clear().draw();
+
+            for (let i = 0; i < getAll.length; i++) {
+                tabel_pekerja.row.add([
+                    getAll[i][0],
+                    getAll[i][1],
+                    getAll[i][2],
+                    getAll[i][3],
+                ]).node().id = 'rowID-' + (i + 1)
+
+                tabel_pekerja.draw(false);
+            }
+        }
+    })
+
+    $('#simpanButton').click(function() {
+        let direktorat = $('#direktorat').val()
+        let fungsi = $('#fungsi').val()
+        let tanggalPakai = $('#tanggalPakai').val()
+        let tipePakai = $('#tipe_pakai').val()
+        let jamMulai = $('#jam_mulai').val()
+        let jamSelesai = $('#jam_selesai').val()
+
+        let getNopek = tabel_pekerja.column(1).data().toArray()
+        let getNama = tabel_pekerja.column(2).data().toArray()
+        let getket = tabel_pekerja.column(3).data().toArray()
+
+        let arrayListWFO = []
+        for (let i = 0; i < getNopek.length; i++) {
+            var arrayList = [getNopek[i], getNama[i], getket[i]];
+            arrayListWFO.push(arrayList)
+        }
+
+        let postData = {};
+        postData.direktorat = direktorat
+        postData.fungsi = fungsi
+        postData.tanggalPakai = tanggalPakai
+        postData.tipePakai = tipePakai
+        postData.jamMulai = jamMulai
+        postData.jamSelesai = jamSelesai
+        postData.list_wfo = arrayListWFO
+
+        console.log(postData);
+
+        let route = "{{route('save-wfo')}}"
+        $.ajax({
+            url: route,
+            type: "POST",
+            data: "datanya=" + JSON.stringify(postData),
+            dataType: "json",
+            success: function(data) {
+                if (data.status == 'success') {
+                    swal.fire("Success!", data.message, data.alert)
+                        .then(function() {
+                            location.reload();
+                        });
+                } else {
+                    swal.fire("Warning!", data.message, data.alert);
+                }
+            },
+            error: function(data) {
+                swal.fire("Error!", "Add data failed!", "error");
+            }
+        });
+    })
 </script>
 
 @endsection
