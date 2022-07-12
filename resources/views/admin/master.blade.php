@@ -41,6 +41,7 @@
     <script src="{{ asset('admin/assets/modules/select2/dist/js/select2.full.min.js')}}"></script>
     <script src="{{ asset('admin/assets/modules/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
     <script src="{{ asset('admin/assets/modules/bootstrap-timepicker/js/bootstrap-timepicker.min.js')}}"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
 
 
     <!-- Template JS File -->
