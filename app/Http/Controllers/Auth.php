@@ -37,6 +37,9 @@ class Auth extends Controller
                 return;
             }
 
+            $role = $get_member[0]->role;
+            $id_user = $get_member[0]->ID;
+
             //LDAP
             $params = [
                 "UserName"         => $input_email,
@@ -68,10 +71,14 @@ class Auth extends Controller
                     );
 
                     Session::put('user_access', $user_access);
+                    Session::put('role', $role);
+                    Session::put('id_user', $id_user);
+
                     $notif = [
                         'status' => 'success',
                         'message' => 'Login berhasil.',
-                        'alert' => 'success'
+                        'alert' => 'success',
+                        'role' => $role
                     ];
                     echo json_encode($notif);
                     return;
@@ -107,23 +114,23 @@ class Auth extends Controller
     public function loginPekerja()
     {
         $data = json_decode($_POST['datanya']);
-       
+
         if ($data->nopek) {
             $nomorPekerja = $data->nopek;
             $getBiodata = DB::connection('absensi')->table('tb_biodata')
-                        ->select('tb_biodata.*', 'ref_direktorat.nama as direktorat', 'ref_fungsi.nama as fungsi')
-                        ->join('ref_direktorat', 'ref_direktorat.ID', 'tb_biodata.direktorat')
-                        ->join('ref_fungsi', 'ref_fungsi.ID', 'tb_biodata.fungsi')
-                        ->where([
-                            'nomorPekerja' => $nomorPekerja,
-                        ])->get();
+                ->select('tb_biodata.*', 'ref_direktorat.nama as direktorat', 'ref_fungsi.nama as fungsi')
+                ->join('ref_direktorat', 'ref_direktorat.ID', 'tb_biodata.direktorat')
+                ->join('ref_fungsi', 'ref_fungsi.ID', 'tb_biodata.fungsi')
+                ->where([
+                    'nomorPekerja' => $nomorPekerja,
+                ])->get();
 
             if (count($getBiodata) > 0) {
                 $getEmail = DB::connection('absensi')->table('ref_email')
-                ->where([
-                    'nopek' => $nomorPekerja,
-                ])->get();
-                
+                    ->where([
+                        'nopek' => $nomorPekerja,
+                    ])->get();
+
                 $userID = '';
                 $email = '';
                 if (count($getEmail) > 0) {
@@ -132,7 +139,7 @@ class Auth extends Controller
                     $email = $getEmail[0]->email;
                 }
 
-                
+
                 $user_access = array(
                     'user_id'     => $userID,
                     'email'     => $email,
@@ -147,6 +154,8 @@ class Auth extends Controller
                 );
 
                 Session::put('user_access', $user_access);
+                Session::put('role', 'Pekerja');
+                Session::put('id_user', 0);
 
                 $notif = [
                     'status' => 'success',
@@ -155,8 +164,7 @@ class Auth extends Controller
                 ];
                 echo json_encode($notif);
                 return;
-            }
-            else {
+            } else {
                 $notif = [
                     'status' => 'warning',
                     'message' => 'Nomor Pekerja tidak ditemukan, harap periksa kembali nomor pekerja yang digunakan untuk Absensi pada aplikasi absensi Covid PDSI.',
@@ -186,7 +194,7 @@ class Auth extends Controller
     public function checkExistMemberLDAP($email)
     {
         $getData = DB::table('users')
-            ->where('email', $email)
+            ->where('userid', $email)
             ->get();
 
         return $getData;

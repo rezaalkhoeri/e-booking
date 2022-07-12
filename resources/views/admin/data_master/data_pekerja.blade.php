@@ -1,22 +1,30 @@
 @extends('admin.master')
 
 @section('title')
-Input Pekerja WFO
+Data Pekerja
 @endsection
 
 @section('content')
 <section class="section">
     <div class="section-header">
-        <h1>BIODATA PEKERJA</h1>
+        <div class="row col-12">
+            <div class="col-9">
+                <h1>BIODATA PEKERJA</h1>
+            </div>
+            <div class="col-3">
+                Tanggal Hari ini: <b class="" id="date"></b>
+            </div>
+        </div>
+
     </div>
-    Tanggal Hari ini:<b class="" id="date"></b> 
+
     <div class="section-body">
         <div class="row">
             <div class="col-12 col-md-12 col-lg-12">
                 <div class="card">
                     <div class="card-header">
                         <h4>Filter Data</h4>
-                        
+
                     </div>
                     <div class="card-body">
                         <div class="row">
@@ -45,7 +53,7 @@ Input Pekerja WFO
                                 <button type="button" id="filterButton" class="btn btn-primary"> Tampilkan </button>
                             </div>
                         </div>
-                        
+
                     </div>
                 </div>
             </div>
@@ -58,57 +66,44 @@ Input Pekerja WFO
                         <h4>Data Pekerja</h4>
                     </div>
                     <div class="card-body">
-                        <div class="table-responsive">
-                            <div id="table-2_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer">
-                                <div class="row">
-                                    <div class="col-sm-12 col-md-6">
-                                        <div class="dataTables_length" id="table-2_length"><label>Show <select name="table-2_length" aria-controls="table-2" class="form-control form-control-sm">
-                                                    <option value="10">10</option>
-                                                    <option value="25">25</option>
-                                                    <option value="50">50</option>
-                                                    <option value="100">100</option>
-                                                </select> entries</label></div>
-                                    </div>
-                                    <div class="col-sm-12 col-md-6">
-                                        <div id="table-2_filter" class="dataTables_filter"><label>Search:<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="table-2"></label></div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <table class="table table-striped dataTable no-footer" id="table-2" role="grid" aria-describedby="table-2_info">
-                                            <thead>
-                                                <tr role="row">
-                                                    <th class="sorting" tabindex="0" aria-controls="table-2" rowspan="1" colspan="1" aria-label="Task Name: activate to sort column ascending" style="width: 92.3px;">Nomor Pekerja</th>
-                                                    <th class="sorting_disabled" rowspan="1" colspan="1" aria-label="Progress" style="width: 53.0125px;">Nama</th>
-                                                    <th class="sorting_disabled" rowspan="1" colspan="1" aria-label="Progress" style="width: 53.0125px;">Jabatan</th>
-                                                    <th class="sorting_disabled" rowspan="1" colspan="1" aria-label="Progress" style="width: 53.0125px;">Direktorat</th>
-                                                    <th class="sorting_disabled" rowspan="1" colspan="1" aria-label="Progress" style="width: 53.0125px;">Fungsi</th>
-                                                    <th class="sorting_disabled" rowspan="1" colspan="1" aria-label="Progress" style="width: 53.0125px;">Departemen</th>
-                                                    <th class="sorting" tabindex="0" aria-controls="table-2" rowspan="1" colspan="1" aria-label="Action: activate to sort column ascending" style="width: 44.325px;">Status Absen</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="listPekerja">
-                                                
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-12 col-md-5">
-                                        <div class="dataTables_info" id="table-2_info" role="status" aria-live="polite">Showing 1 to 4 of 4 entries</div>
-                                    </div>
-                                    <div class="col-sm-12 col-md-7">
-                                        <div class="dataTables_paginate paging_simple_numbers" id="table-2_paginate">
-                                            <ul class="pagination">
-                                                <li class="paginate_button page-item previous disabled" id="table-2_previous"><a href="#" aria-controls="table-2" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li>
-                                                <li class="paginate_button page-item active"><a href="#" aria-controls="table-2" data-dt-idx="1" tabindex="0" class="page-link">1</a></li>
-                                                <li class="paginate_button page-item next disabled" id="table-2_next"><a href="#" aria-controls="table-2" data-dt-idx="2" tabindex="0" class="page-link">Next</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <table id="table-2" class="table table-striped">
+                                    <thead>
+                                        <tr role="row">
+                                            <th>Nomor Pekerja</th>
+                                            <th>Nama</th>
+                                            <th>Jabatan</th>
+                                            <th>Direktorat</th>
+                                            <th>Fungsi</th>
+                                            <th>Departemen</th>
+                                            <th>Status Absen</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="listPekerja">
+                                        @foreach($getPekerja as $gp)
+                                        <tr>
+                                            <td>{{$gp->nomorPekerja}}</td>
+                                            <td>{{$gp->namaLengkap}}</td>
+                                            <td>{{$gp->jabatan}}</td>
+                                            <td>{{$gp->direktorat}}</td>
+                                            <td>{{$gp->fungsi}}</td>
+                                            <td>{{$gp->departemen}}</td>
+                                            <td>
+                                                @if($gp->tgl == '')
+                                                Belum Absen
+                                                @else
+                                                Sudah Absen
+                                                @endif
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -120,9 +115,10 @@ Input Pekerja WFO
 <script>
     $.ajaxSetup({
         headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')    
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     })
+    $("#table-2").DataTable();
 
     var dt = new Date();
     document.getElementById("date").innerHTML = dt.toLocaleDateString('en-UK');
@@ -183,7 +179,7 @@ Input Pekerja WFO
             }
         });
     });
-    $(document).on('click', '#filterButton', function(e){
+    $(document).on('click', '#filterButton', function(e) {
         var direktorat = $('#direktorat').val();
         var fungsi = $('#fungsi').val();
         var departemen = $('#departemen').val();
@@ -194,7 +190,7 @@ Input Pekerja WFO
         data.departemen = departemen;
 
         route = "{{route('filter-pekerja')}}";
-
+        var tabel_pekerja = $("#table-2").DataTable();
         $.ajax({
             url: route,
             type: "POST",
@@ -203,34 +199,40 @@ Input Pekerja WFO
             beforeSend: function() {
 
             },
-            success: function(data){
+            success: function(data) {
                 response = JSON.parse(JSON.stringify(data));
                 console.log(response);
 
                 var html = "";
                 if (data.length) {
-                    
-                    $.each(data, function(key, value){
+
+                    $.each(data, function(key, value) {
+                        if (value.tgl == null) {
+                            $tgl = "Belum Absen";
+                        } else {
+                            $tgl = "Sudah Absen";
+                        }
                         html += '<tr>'
-                        html += '<td>'+ value.nomorPekerja +'</td>';
-                        html += '<td>'+ value.namaLengkap +'</td>';
-                        html += '<td>'+ value.jabatan +'</td>';
-                        html += '<td>'+ value.direktorat +'</td>';
-                        html += '<td>'+ value.fungsi +'</td>';
-                        html += '<td>'+ value.departemen +'</td>';
-                        html += '<td>'+ value.departemen +'</td>';
+                        html += '<td>' + value.nomorPekerja + '</td>';
+                        html += '<td>' + value.namaLengkap + '</td>';
+                        html += '<td>' + value.jabatan + '</td>';
+                        html += '<td>' + value.direktorat + '</td>';
+                        html += '<td>' + value.fungsi + '</td>';
+                        html += '<td>' + value.departemen + '</td>';
+                        html += '<td>' + $tgl + '</td>';
                         html += '</tr>'
                     });
-                    
-                }else{
+
+                } else {
                     html += '<td colspan="7">NO RECORD FOUND</td>';
                 }
-
+                tabel_pekerja.clear().draw();
+                tabel_pekerja.destroy()
                 $('#listPekerja').html(html);
+                $('#table-2').DataTable();
             }
         })
     })
-    
 </script>
 @endsection
 @endsection
