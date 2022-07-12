@@ -33,8 +33,23 @@ $("#table-1").dataTable({
     { "sortable": false, "targets": [2,3] }
   ]
 });
-$("#table-2").dataTable({
+
+
+let tabel_pekerja = $("#list_wfo").DataTable({
+  "columns": [{
+          "name": "checkbox"
+      },
+      {
+          "name": "nopek"
+      },
+      {
+          "name": "nama_pekerja"
+      },
+      {
+          "name": "keterangan"
+      }
+  ],
   "columnDefs": [
-    { "sortable": false, "targets": [0,2,3] }
-  ]
+    { "sortable": false, "targets": [0,1,2,3] }
+  ]  
 });

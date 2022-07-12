@@ -32,11 +32,6 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/rooms', [HomeController::class, 'rooms'])->name('rooms');
 
 Route::middleware([CheckAuth::class])->group(function () {
-    Route::get('admin-page', [DashboardController::class, 'index'])->name('admin-index');
-    Route::get('input-wfo', [BookingKursi::class, 'input_pekerja_wfo'])->name('input-wfo');
-    Route::get('data-pekerja', [MasterPekerjaController::class, 'index'])->name('data-pekerja');
-    Route::post('/filter-pekerja', [MasterPekerjaController::class, 'filter_pekerja'])->name('filter-pekerja');
-
     Route::get('/sign-out', [Auth::class, 'signout'])->name('sign-out');
     Route::get('/book-rooms', [HomeController::class, 'book_rooms'])->name('book-rooms');
     Route::get('/book-seat', [HomeController::class, 'book_seat'])->name('book-seat');
@@ -54,4 +49,17 @@ Route::middleware([CheckAuth::class])->group(function () {
 
     Route::post('/booking-kursi', [ActionController::class, 'booking_kursi'])->name('booking-kursi');
     Route::post('/confirm-ticket', [ActionController::class, 'confirm_ticket'])->name('confirm-ticket');
+
+    // Admin Page
+
+    Route::get('admin-page', [DashboardController::class, 'index'])->name('admin-index');
+
+    Route::get('input-wfo', [BookingKursi::class, 'input_pekerja_wfo'])->name('input-wfo');
+    Route::post('get-info-kursi', [ActionController::class, 'get_info_kursi'])->name('get-info-kursi');
+    Route::post('get-pekerja-by-fungsi', [BookingKursi::class, 'get_pekerja_by_fungsi'])->name('get-pekerja-by-fungsi');
+    Route::post('save-wfo', [BookingKursi::class, 'save_pekerja_wfo'])->name('save-wfo');
+
+
+    Route::get('data-pekerja', [MasterPekerjaController::class, 'index'])->name('data-pekerja');
+    Route::post('/filter-pekerja', [MasterPekerjaController::class, 'filter_pekerja'])->name('filter-pekerja');
 });

@@ -13,7 +13,10 @@
 <link rel="stylesheet" href="{{ asset('admin/assets/modules/bootstrap-daterangepicker/daterangepicker.css')}}">
 <link rel="stylesheet" href="{{ asset('admin/assets/modules/bootstrap-timepicker/css/bootstrap-timepicker.min.css')}}">
 
+<link rel="stylesheet" href="{{ asset('admin/assets/modules/datatables.net-bs4/css/dataTables.bootstrap4.min.css')}}">
+<link rel="stylesheet" href="{{ asset('admin/assets/modules/datatables.net-select-bs4/css/select.bootstrap4.min.css')}}">
+
 
 <!-- Template CSS -->
-<link rel="stylesheet" href="{{ asset('admin/assets/css/style.css') }}">
+<link rel="stylesheet" href="{{ asset('admin/assets/css/style.css')}}">
 <link rel="stylesheet" href="{{ asset('admin/assets/css/components.css')}}">
