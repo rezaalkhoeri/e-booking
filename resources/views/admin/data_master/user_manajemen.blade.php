@@ -185,7 +185,6 @@ User Manajemen
 
     $("#buttonAdd").on('click', function() {
         $("#modalAdd").modal('show');
-        $("#modalAdd").modal('hide');
     })
 
 
