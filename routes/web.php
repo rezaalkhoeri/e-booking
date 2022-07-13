@@ -80,6 +80,12 @@ Route::middleware([CheckAuth::class])->group(function () {
     Route::post('get-pekerja-by-fungsi', [BookingKursi::class, 'get_pekerja_by_fungsi'])->name('get-pekerja-by-fungsi');
     Route::post('save-wfo', [BookingKursi::class, 'save_pekerja_wfo'])->name('save-wfo');
 
+    Route::get('monitor-booking', [BookingKursi::class, 'monitor_booking'])->name('monitor-booking');
+    Route::get('get-booking', [BookingKursi::class, 'get_booking'])->name('get-booking');
+    Route::post('update-booking', [BookingKursi::class, 'update_booking'])->name('update-booking');
+
+
+
     // Menu Master Pekerja
     Route::get('data-pekerja', [MasterPekerjaController::class, 'index'])->name('data-pekerja');
     Route::post('/filter-pekerja', [MasterPekerjaController::class, 'filter_pekerja'])->name('filter-pekerja');

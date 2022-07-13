@@ -53,7 +53,8 @@
     <script src="{{ asset('admin/assets/js/custom.js')}}"></script>
 
     <script src="{{ asset('admin/assets/js/page/modules-datatables.js')}}"></script>
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="{{ url('Scripts/sweetalert.min.js') }}"></script>
+
     @yield('scripts')
 </body>
 

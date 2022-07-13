@@ -414,6 +414,13 @@ Input Pekerja WFO
     $('#list_wfo').on('change', '#checkbox-all', function(e) {
         if (e.target.checked !== true) {
             listCheckbox = [];
+        } else {
+            listCheckbox = [];
+            let length = tabel_pekerja.rows().count();
+            for (let i = 0; i < length; i++) {
+                listCheckbox.push(i + 1)
+            }
+            console.log(listCheckbox);
         }
     })
 
@@ -482,7 +489,7 @@ Input Pekerja WFO
                 if (data.status == 'success') {
                     swal.fire("Success!", data.message, data.alert)
                         .then(function() {
-                            location.reload();
+                            location.href = "{{route('monitor-booking')}}"
                         });
                 } else {
                     swal.fire("Warning!", data.message, data.alert);

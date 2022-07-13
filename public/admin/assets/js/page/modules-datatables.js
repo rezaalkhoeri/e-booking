@@ -53,3 +53,6 @@ let tabel_pekerja = $("#list_wfo").DataTable({
     { "sortable": false, "targets": [0,1,2,3] }
   ]  
 });
+
+
+

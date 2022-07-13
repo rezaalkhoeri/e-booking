@@ -70,6 +70,8 @@ class BookingKursi extends Controller
                 'jamMulai' => date("H:i:s", strtotime($data->jamMulai)),
                 'jamSelesai' => date("H:i:s", strtotime($data->jamSelesai)),
                 'keterangan' => $data->list_wfo[$i][2],
+                'tipeRequest' => '1',
+                'statusBooking' => '1',
                 'createdby' => $getUser[0]->userid
             ]);
         }
@@ -105,6 +107,74 @@ class BookingKursi extends Controller
             $notif = [
                 'status' => 'warning',
                 'message' => 'Save data failed!',
+                'alert' => 'warning'
+            ];
+            echo json_encode($notif);
+            return;
+        }
+    }
+
+    public function monitor_booking()
+    {
+        $getDirektorat = DB::table('ref_direktorat')->get();
+        $getBooking = DB::table('trx_bookingkursi')->get();
+
+        $return = [
+            'getDirektorat',
+            'getBooking'
+        ];
+
+        return view('admin/booking_kursi/monitor_booking', compact($return));
+    }
+
+    public function get_booking(Request $request)
+    {
+        $sql = 'SELECT trx_bookingkursi.*, ref_fungsi.nama as fungsi,  CONCAT(m_kursi.nama, " | ", m_kursi.kode ) AS kodeKursi
+        FROM trx_bookingkursi
+        JOIN ref_fungsi ON ref_fungsi.ID = trx_bookingkursi.fungsi
+        JOIN m_kursi ON m_kursi.ID = trx_bookingkursi.kursi';
+
+        $getBooking = DB::select($sql);
+
+        if ($request->ajax()) {
+            return datatables()->of($getBooking)->make(true);
+        }
+        return view('user.index');
+    }
+
+    public function update_booking()
+    {
+        $data = json_decode($_POST['datanya']);
+
+
+        $status = '';
+        if ($data->action == 'cancel') {
+            $status = 4;
+        } else {
+            $status = 3;
+        }
+
+        $arrNotif = [];
+        for ($i = 0; $i < count($data->data); $i++) {
+            $updatedData = [
+                'statusBooking' => $status
+            ];
+            $updateBooking = DB::table('trx_bookingkursi')->where('ID', $data->data[$i])->update($updatedData);
+            array_push($arrNotif, $updateBooking);
+        }
+
+        if (count(array_unique($arrNotif)) === 1) {
+            $notif = [
+                'status' => 'success',
+                'message' => 'Update data success!',
+                'alert' => 'success'
+            ];
+            echo json_encode($notif);
+            return;
+        } else {
+            $notif = [
+                'status' => 'warning',
+                'message' => 'Update data failed!',
                 'alert' => 'warning'
             ];
             echo json_encode($notif);

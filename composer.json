@@ -15,7 +15,8 @@
         "laravel/tinker": "^2.5",
         "orangehill/iseed": "^3.0",
         "realrashid/sweet-alert": "^5.1",
-        "spatie/browsershot": "^3.55"
+        "spatie/browsershot": "^3.55",
+        "yajra/laravel-datatables": "1.5"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.6",
