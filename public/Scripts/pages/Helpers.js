@@ -31,7 +31,7 @@ $("#fungsi").change(function() {
     let fungsi = $('#fungsi').val();
     let tipeForm = $('#tipe_form').val();
 
-    if (tipeForm == 'Reservasi')
+    if (tipeForm == 'reservasi')
     {
         $.ajax({
             url: url_get_kursi_fungsi,
