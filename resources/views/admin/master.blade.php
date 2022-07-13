@@ -41,13 +41,19 @@
     <script src="{{ asset('admin/assets/modules/select2/dist/js/select2.full.min.js')}}"></script>
     <script src="{{ asset('admin/assets/modules/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
     <script src="{{ asset('admin/assets/modules/bootstrap-timepicker/js/bootstrap-timepicker.min.js')}}"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
+
+    <script src="{{ asset('admin/assets/modules/datatables/media/js/jquery.dataTables.min.js')}}"></script>
+    <script src="{{ asset('admin/assets/modules/datatables.net-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
+    <script src="{{ asset('admin/assets/modules/datatables.net-select-bs4/js/select.bootstrap4.min.js')}}"></script>
 
 
     <!-- Template JS File -->
     <script src="{{ asset('admin/assets/js/scripts.js')}}"></script>
     <script src="{{ asset('admin/assets/js/custom.js')}}"></script>
 
-
+    <script src="{{ asset('admin/assets/js/page/modules-datatables.js')}}"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     @yield('scripts')
 </body>
 
