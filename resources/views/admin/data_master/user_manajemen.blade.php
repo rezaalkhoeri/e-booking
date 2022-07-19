@@ -28,6 +28,10 @@
                             <button type="button" class="btn btn-primary" data-toggle="modal" id="buttonAdd">
                                 Tambah User Manajemen
                             </button><br><br>
+                            <td><button type="button" class="btn btn-secondary" data-toggle="modal" id="buttonAdd"> <a
+                                        href="{{ url('add-data-user-manajemen') }}">Multiple
+                                        User Manajemen</a></td></button>
+                            <br><br>
                             <div class="table-responsive">
                                 <div id="table-2_wrapper"
                                     class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer">
