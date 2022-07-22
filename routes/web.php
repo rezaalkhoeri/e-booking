@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\BookingKursi;
 use App\Http\Controllers\Admin\MasterPekerjaController;
 use App\Http\Controllers\Admin\UserManajemenController;
+use App\Http\Controllers\Admin\MasterKursiController;
 use App\Http\Controllers\Admin\AddDataUserManajemenController;
 
 use Illuminate\Routing\Router;
@@ -94,6 +95,14 @@ Route::middleware([CheckAuth::class])->group(function () {
     // Menu Master User
     Route::post('/add-user', [UserManajemenController::class, 'add_pekerja'])->name('add-user');
     Route::get('/user-manajemen', [UserManajemenController::class, 'index'])->name('user-manajemen');
+
+    // Menu Master Kursi
+    Route::get('/data-kursi', [MasterKursiController::class, 'index'])->name('data-kursi');
+    Route::post('/filter-kursi', [MasterKursiController::class, 'filter_kursi'])->name('filter-kursi');
+    Route::post('/tambah-kursi', [MasterKursiController::class, 'tambah_kursi'])->name('tambah-kursi');
+    Route::post('/detail-kursi', [MasterKursiController::class, 'detail_kursi'])->name('detail-kursi');
+    Route::post('/detail-booking', [MasterKursiController::class, 'detail_booking'])->name('detail-booking');
+    
     Route::post('/add-multiple-user', [AddDataUserManajemenController::class, 'add_pekerja'])->name('add-multiple-user');
     Route::get('/add-data-user-manajemen', [AddDataUserManajemenController::class, 'index'])->name('add-data-user-manajemen');
 
