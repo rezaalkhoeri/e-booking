@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\BookingKursi;
 use App\Http\Controllers\Admin\MasterPekerjaController;
 use App\Http\Controllers\Admin\UserManajemenController;
 use App\Http\Controllers\Admin\MasterKursiController;
+use App\Http\Controllers\Admin\AddDataUserManajemenController;
 
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Route;
@@ -81,6 +82,12 @@ Route::middleware([CheckAuth::class])->group(function () {
     Route::post('get-pekerja-by-fungsi', [BookingKursi::class, 'get_pekerja_by_fungsi'])->name('get-pekerja-by-fungsi');
     Route::post('save-wfo', [BookingKursi::class, 'save_pekerja_wfo'])->name('save-wfo');
 
+    Route::get('monitor-booking', [BookingKursi::class, 'monitor_booking'])->name('monitor-booking');
+    Route::get('get-booking', [BookingKursi::class, 'get_booking'])->name('get-booking');
+    Route::post('update-booking', [BookingKursi::class, 'update_booking'])->name('update-booking');
+
+
+
     // Menu Master Pekerja
     Route::get('data-pekerja', [MasterPekerjaController::class, 'index'])->name('data-pekerja');
     Route::post('/filter-pekerja', [MasterPekerjaController::class, 'filter_pekerja'])->name('filter-pekerja');
@@ -96,4 +103,7 @@ Route::middleware([CheckAuth::class])->group(function () {
     Route::post('/detail-kursi', [MasterKursiController::class, 'detail_kursi'])->name('detail-kursi');
     Route::post('/detail-booking', [MasterKursiController::class, 'detail_booking'])->name('detail-booking');
     
+    Route::post('/add-multiple-user', [AddDataUserManajemenController::class, 'add_pekerja'])->name('add-multiple-user');
+    Route::get('/add-data-user-manajemen', [AddDataUserManajemenController::class, 'index'])->name('add-data-user-manajemen');
+
 });

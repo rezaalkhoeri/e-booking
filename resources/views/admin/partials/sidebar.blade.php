@@ -9,10 +9,11 @@
     <li class="menu-header">Dashboard</li>
     <li class="{{ Request::route()->getName() == 'admin-index' ? ' active' : '' }}"><a class="nav-link" href="{{ route('admin-index') }}"><i class="fa fa-columns"></i> <span>Dashboard</span></a></li>
     <li class="menu-header">Transaksi</li>
-    <li class="nav-item dropdown {{ Request::route()->getName() == 'input-wfo' ? ' active' : '' }}">
+    <li class="nav-item dropdown {{ Request::route()->getName() == 'input-wfo' || Request::route()->getName() == 'monitor-booking' ? ' active' : '' }}">
       <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i> <span>Booking Kursi</span></a>
       <ul class="dropdown-menu">
         <li class="{{ Request::route()->getName() == 'input-wfo' ? ' active' : '' }}"><a class="nav-link" href="{{ route('input-wfo') }}">Input Pekerja WFO</a></li>
+        <li class="{{ Request::route()->getName() == 'monitor-booking' ? ' active' : '' }}"><a class="nav-link" href="{{ route('monitor-booking') }}">Monitor Booking</a></li>
       </ul>
     </li>
     <li class="menu-header">Master</li>
