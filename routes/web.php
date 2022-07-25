@@ -95,4 +95,11 @@ Route::middleware([CheckAuth::class])->group(function () {
     Route::get('/user-manajemen', [UserManajemenController::class, 'index'])->name('user-manajemen');
     Route::post('/add-multiple-user', [UserManajemenController::class, 'add_multi_pekerja'])->name('add-multiple-user');
     Route::get('/add-data-user-manajemen', [UserManajemenController::class, 'pekerja_multiple_index'])->name('add-data-user-manajemen');
+
+    // Menu Master Kursi
+    Route::get('/data-kursi', [MasterKursiController::class, 'index'])->name('data-kursi');
+    Route::post('/filter-kursi', [MasterKursiController::class, 'filter_kursi'])->name('filter-kursi');
+    Route::post('/tambah-kursi', [MasterKursiController::class, 'tambah_kursi'])->name('tambah-kursi');
+    Route::post('/detail-kursi', [MasterKursiController::class, 'detail_kursi'])->name('detail-kursi');
+    Route::post('/detail-booking', [MasterKursiController::class, 'detail_booking'])->name('detail-booking');
 });
