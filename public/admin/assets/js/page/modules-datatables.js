@@ -54,5 +54,8 @@ let tabel_pekerja = $("#list_wfo").DataTable({
   ]  
 });
 
+let tabel_user = $("#table-2").DataTable();
+
+
 
 
