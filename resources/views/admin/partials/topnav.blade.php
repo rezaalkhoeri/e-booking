@@ -68,15 +68,10 @@
     </li>
     <li class="dropdown"><a href="#" data-toggle="dropdown"
             class="nav-link dropdown-toggle nav-link-lg nav-link-user">
-            <?php
-            $tampilName = mysqli_query($conn, "SELECT * FROM users WHERE ID='$_SESSION[ID]'");
-            $peg = mysqli_fetch_array($tampilName);
-            ?>
-            <?= $peg['userid'] ?>
-            {{-- @php
+            @php
                 $getUser = Session::get('user_access');
             @endphp
-            {{ Session::get('user_access')['user_nama'] }} --}}
+            {{ Session::get('user_access')['user_nama'] }}
             <div class="d-sm-none d-lg-inline-block">
             </div>
             <img alt="image" src="{{ asset('admin/assets/img/avatar/avatar-1.png') }}" class="rounded-circle mr-1">
