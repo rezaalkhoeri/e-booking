@@ -312,7 +312,7 @@
             display: none;
         }
 
-        .cybr-btn:hover .cybr-btn__glitch {
+        /* .cybr-btn:hover .cybr-btn__glitch {
             display: block;
         }
 
@@ -326,7 +326,7 @@
             clip-path: var(--clip);
             background: var(--primary);
             z-index: -1;
-        }
+        } */
 
         @keyframes glitch {
             0% {

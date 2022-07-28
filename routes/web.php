@@ -13,7 +13,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\BookingKursi;
 use App\Http\Controllers\Admin\MasterPekerjaController;
 use App\Http\Controllers\Admin\UserManajemenController;
-
+use App\Http\Controllers\Admin\MasterKursiController;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Route;
 

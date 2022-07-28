@@ -48,7 +48,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <!-- <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="label" for="namWWe">Pilih Kursi</label>
                                     <div class="form-field">
@@ -60,9 +60,9 @@
                                     </div>
 
                                 </div>
-                            </div>
+                            </div> -->
 
-                            <div class="col-md-6">
+                            <!-- <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="label" for="namWWe"></label>
                                     <div class="form-field">
@@ -71,29 +71,29 @@
                                         </div>
                                     </div>
                                 </div>
+                            </div> -->
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="label" for="email">Pilih Kursi</label>
+                                    <input type="text" class="form-control" name="kursi" id="selected_kursi" readonly>
+                                </div>
                             </div>
 
-                            <!-- <div class="col-md-3">
-                            <div class="form-group">
-                                <label class="label" for="email">Pilih Kursi</label>
-                                <input type="text" class="form-control" name="kursi" id="kursi" readonly>
+                            <div class="col-md-3">
+                                <label class="label" for="email"></label>
+                                <div class="form-group">
+                                    <button type="button" class="btn btn-primary" id="lihatKursi"> Lihat Kursi</button>
+                                </div>
                             </div>
-                        </div>
-                        
-                        <div class="col-md-3">
-                            <label class="label" for="email"></label>
-                            <div class="form-group">
-                                <button type="button" class="btn btn-primary" id="lihatKursi"> Lihat Kursi</button>
-                            </div>
-                        </div>
-                        -->
-                            <div class="col-md-6">
+
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label class="label" for="name">Tanggal Start Pemakaian</label>
                                     <input type="date" class="form-control" name="tglStart" id="tglStart">
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label class="label" for="name">Tanggal Finish Pemakaian</label>
                                     <input type="date" class="form-control" name="tglFinish" id="tglFinish">
@@ -149,34 +149,28 @@
 
     <input type="hidden" id="box_kursi" name="box_kursi">
     <div class="modal fade" id="modalKursi" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-dialog modal-md" role="document">
             <div class="modal-content">
-                <div class="modal-header">
+                <!-- <div class="modal-header">
                     <h5 class="modal-title">Denah Kursi</h5>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 <div class="modal-body">
                     <iframe id="ifDokumen" class="if"></iframe>
+                </div> -->
+                <div class="modal-header">
+                    <h3>Pilih Kursi</h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
-                <!-- <div class="modal-header">
-                <h3>Pilih Kursi</h3>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="col-lg-12 col-md-5 d-flex align-items-stretch">
-                    <div class="info-wrap bg-primary w-100 p-md-5 p-4">
-                        <div class="dbox w-100 d-flex align-items-start" id="kursi_template">
+                <div class="modal-body" id="kursi_template">
 
-                        </div>
-                    </div>
                 </div>
-            </div>
-            <div class=" modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Pilih</button>
-            </div> -->
+                <div class=" modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="selectKursi">Pilih</button>
+                </div>
             </div>
         </div>
     </div>
@@ -200,6 +194,10 @@
     const url_get_denah = '{{route("get-denah-kursi")}}';
     const url_post_reservasi_kursi = '{{route("booking-kursi")}}';
     let url_view_ticket = '{{route("view-ticket", "slug" )}}';
+
+    const url_get_kursi_name = '{{ route("get-kursi")}}';
+    const url_get_template_kursi = '{{ route("get-template")}}';
+    window.kursi = "";
 </script>
 
 

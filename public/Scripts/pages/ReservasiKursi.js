@@ -1,55 +1,96 @@
 
+// Non SVG Kursi
 
+// $("#lihatKursi").click(function(e) {
+//     var idKursi = $('#kursi').val();
+
+//     if (idKursi == '') {
+//         Swal.fire(
+//             'Get Denah Kursi Gagal!',
+//             'Data Kursi belum dipilih',
+//             'warning'
+//         )
+//     } else {
+//         var data = {}
+//         data.id = idKursi;
+
+//         $.ajax({
+//             url: url_get_denah,
+//             method: "POST",
+//             data: "datanya=" + JSON.stringify(data),
+//             dataType: 'json',
+//             beforeSend: function() {
+
+//             },
+//             success: function(data) {
+//                 if (data.status == 'success') {
+//                     let src =  "Img/Kursi/"+ data.url;
+//                     document.getElementById("ifDokumen").setAttribute('src', src);
+//                     $("#modalKursi").modal('show');
+//                 }
+                
+//             }
+//         });
+//     }
+// })
+
+
+// With SVG Kursi
 $("#lihatKursi").click(function(e) {
-    var idKursi = $('#kursi').val();
-
-    if (idKursi == '') {
+    var kursi = $('#box_kursi').val();
+    if (kursi == '') {
         Swal.fire(
-            'Get Denah Kursi Gagal!',
-            'Data Kursi belum dipilih',
+            'Get Kursi Failed!',
+            'Data fungsi belum dipilih',
             'warning'
         )
     } else {
-        var data = {}
-        data.id = idKursi;
-
         $.ajax({
-            url: url_get_denah,
+            url: url_get_template_kursi,
             method: "POST",
-            data: "datanya=" + JSON.stringify(data),
+            data: "datanya=" + JSON.stringify(kursi),
             dataType: 'json',
             beforeSend: function() {
-
             },
             success: function(data) {
-                if (data.status == 'success') {
-                    let src =  "Img/Kursi/"+ data.url;
-                    document.getElementById("ifDokumen").setAttribute('src', src);
-                    $("#modalKursi").modal('show');
-                }
-                
+                $("#kursi_template").empty()
+                $("#kursi_template").append(data)
+                $("#modalKursi").modal('show')
             }
         });
     }
 })
 
 
-// $("#fungsi").change(function() {
-//     var fungsi = $('#fungsi').val();
-//     $.ajax({
-//         url: "{{ route('get-kursi')}}",
-//         method: "POST",
-//         data: "datanya=" + JSON.stringify(fungsi),
-//         dataType: 'json',
-//         beforeSend: function() {
+$("#fungsi").change(function() {
+    var fungsi = $('#fungsi').val();
 
-//         },
-//         success: function(data) {
-//             let html = data[0].template;
-//             $("#box_kursi").val(html)
-//         }
-//     });
-// });
+    data = {};
+    data.fungsi = fungsi
+
+    $.ajax({
+        url: url_get_kursi_name,
+        method: "POST",
+        data: "datanya=" + JSON.stringify(data),
+        dataType: 'json',
+        beforeSend: function() {
+
+        },
+        success: function(data) {
+            if (data.length > 0) {
+                let html = data[0].template;
+                $("#box_kursi").val(html)                    
+            } else {
+                Swal.fire(
+                    'Get Denah Kursi Gagal!',
+                    'Data Kursi belum ada',
+                    'warning'
+                )                
+                $('#fungsi').val('');                
+            }
+        }
+    });
+});
 
 $("#box_kursi").val("")
 
@@ -78,10 +119,16 @@ $("#tipe_pakai").change(function() {
     }
 });
 
+
+$("#selectKursi").click(function() {
+    $("#selected_kursi").val(kursi)
+    $("#modalKursi").modal('hide')
+})
+
 $("#submitBooking").click(function() {
     let direktorat = $('#direktorat').val()
     let fungsi = $('#fungsi').val()
-    let kursi = $('#kursi').val()
+    let kursi = $('#selected_kursi').val()
     let tglStart = $('#tglStart').val()
     let tglFinish = $('#tglFinish').val()
     let tipe_pakai = $('#tipe_pakai').val()
@@ -100,6 +147,8 @@ $("#submitBooking").click(function() {
     data.jam_mulai = jam_mulai;
     data.jam_selesai = jam_selesai;
     data.keterangan = keterangan;
+
+    console.log(data);
 
     $.ajax({
         url: url_post_reservasi_kursi,

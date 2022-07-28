@@ -37,7 +37,8 @@ class ActionController extends Controller
 
     public function get_kursi()
     {
-        $id = json_decode($_POST['datanya']);
+        $data = json_decode($_POST['datanya']);
+        $id = $data->fungsi;
 
         $getKursi = DB::table('m_template_kursi')
             ->where('fungsi', $id)
@@ -60,7 +61,7 @@ class ActionController extends Controller
     public function get_template()
     {
         $filename = json_decode($_POST['datanya']);
-        $getFile = Storage::disk("resources_views")->get($filename . ".php");
+        $getFile = Storage::disk("resources_views")->get($filename . ".blade.php");
         return json_encode($getFile);
     }
 
@@ -118,24 +119,19 @@ class ActionController extends Controller
     public function booking_kursi()
     {
         $data = json_decode($_POST['datanya']);
+
         $getSession = Session::get('user_access');
-        $getUser = DB::table('users')
-            ->where([
-                'userid' => $getSession['user_id'],
-            ])
-            ->get();
 
         // Jika Pakai Template
-        // $getIDkursi = DB::table('m_kursi')
-        //     ->where([
-        //         'kode' => $data->kursi,
-        //         'fungsi' => $data->fungsi,
-        //     ])
-        //     ->get();
-        // $idKursi = $getIDkursi[0]->ID;
+        $getIDkursi = DB::table('m_kursi')
+            ->where([
+                'kode' => $data->kursi,
+                'fungsi' => $data->fungsi,
+            ])->get();
+        $idKursi = $getIDkursi[0]->ID;
 
         // Jika Tidak Pakai Template
-        $idKursi = $data->kursi;
+        // $idKursi = $data->kursi;
 
         $insertData = [
             'kodeBooking' => $this->quickRandom(),
@@ -149,15 +145,12 @@ class ActionController extends Controller
             'jamMulai' => $data->jam_mulai,
             'jamSelesai' => $data->jam_selesai,
             'keterangan' => $data->keterangan,
-            'createdby' => $getUser[0]->userid
+            'createdby' => $getSession['user_nama']
         ];
-
-        // print_r($insertData);
-        // die;
 
         $action = DB::table('trx_bookingkursi')->insertGetId($insertData);
 
-        $updatedData= [
+        $updatedData = [
             'status' => 2
         ];
         $action_mKursi = DB::table('m_kursi')->where('ID', $idKursi)->update($updatedData);

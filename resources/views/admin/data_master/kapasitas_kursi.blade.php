@@ -125,8 +125,7 @@ Master Data Kursi
                                             <td>{{$gk->tersedia}}</td>
                                             <td>
                                                 <!-- Button trigger modal -->
-                                                <button type="button" class="btn btn-primary mdlDetail"
-                                                    data-toggle="modal" onclick="detail_kursi({{$gk->id_fungsi}}, {{$gk->jumlah}})">
+                                                <button type="button" class="btn btn-primary mdlDetail" data-toggle="modal" onclick="detail_kursi({{$gk->id_fungsi}}, {{$gk->jumlah}})">
                                                     Detail
                                                 </button>
 
@@ -184,9 +183,9 @@ Master Data Kursi
                                         <div class="" id="detailKapasitas"></div>
                                     </th>
                                 </tr>
-                                
+
                             </thead>
-                           
+
                         </table>
                     </div>
                 </div>
@@ -202,7 +201,7 @@ Master Data Kursi
                                 </tr>
                             </thead>
                             <tbody id="availableKursi">
-                                
+
                             </tbody>
                         </table>
                     </div>
@@ -221,7 +220,7 @@ Master Data Kursi
                                 </tr>
                             </thead>
                             <tbody id="detailBook">
-                                
+
                             </tbody>
                         </table>
                     </div>
@@ -235,239 +234,239 @@ Master Data Kursi
 </div>
 @section('scripts')
 <script>
-$.ajaxSetup({
-    headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    }
-})
-
-$("#table-2").DataTable();
-
-var dt = new Date();
-document.getElementById("date").innerHTML = dt.toLocaleDateString('en-UK');
-
-$("#direktorat").change(function() {
-    var direktorat = $('#direktorat').val();
-    $.ajax({
-        url: "{{ route('get-fungsi')}}",
-        method: "POST",
-        data: "datanya=" + JSON.stringify(direktorat),
-        dataType: 'json',
-        beforeSend: function() {
-
-        },
-        success: function(data) {
-            fungsi = {};
-            for (let i = 0; i < data.length; i++) {
-                fungsi[data[i].ID] = data[i].nama
-            }
-            $('#fungsi').find('option')
-                .remove()
-                .end()
-                .append('<option value=""> -- Pilih Fungsi -- </option>')
-
-            $.each(fungsi, function(val, text) {
-                $('#fungsi').append(
-                    $('<option></option>').val(val).html(text)
-                );
-            });
-        }
-    });
-});
-
-$("#kursi_direktorat").change(function() {
-    var direktorat = $('#kursi_direktorat').val();
-    $.ajax({
-        url: "{{ route('get-fungsi')}}",
-        method: "POST",
-        data: "datanya=" + JSON.stringify(direktorat),
-        dataType: 'json',
-        beforeSend: function() {
-
-        },
-        success: function(data) {
-            fungsi = {};
-            for (let i = 0; i < data.length; i++) {
-                fungsi[data[i].ID] = data[i].nama
-            }
-            $('#kursi_fungsi').find('option')
-                .remove()
-                .end()
-                .append('<option value=""> -- Pilih Fungsi -- </option>')
-
-            $.each(fungsi, function(val, text) {
-                $('#kursi_fungsi').append(
-                    $('<option></option>').val(val).html(text)
-                );
-            });
-        }
-    });
-});
-
-$(document).on('click', '#filterButton', function(e) {
-    var direktorat = $('#direktorat').val();
-    var fungsi = $('#fungsi').val();
-
-    var data = {}
-    data.direktorat = direktorat;
-    data.fungsi = fungsi;
-
-    route = "{{route('filter-kursi')}}";
-    var tabel_pekerja = $("#table-2").DataTable();
-    $.ajax({
-        url: route,
-        type: "POST",
-        data: "datanya=" + JSON.stringify(data),
-        dataType: "json",
-        beforeSend: function() {
-
-        },
-        success: function(data) {
-            response = JSON.parse(JSON.stringify(data));
-            console.log(response);
-
-            var html = "";
-            if (data.length) {
-                $.each(data, function(key, value) {
-                    html += '<tr>'
-                    html += '<td>' + (key+1) + '</td>';
-                    html += '<td>' + value.direktorat + '</td>';
-                    html += '<td>' + value.nama_fungsi + '</td>';
-                    html += '<td>' + value.jumlah + '</td>';
-                    html += '<td>' + value.terisi + '</td>';
-                    html += '<td>' + value.tersedia + '</td>';
-                    html += '<td><button type="button" class="btn btn-primary mdlDetail" data-toggle="modal" onclick="detail_kursi('+ value.id_fungsi +')">Detail</button></td>';
-                    html += '</tr>'
-                });
-
-            } else {
-                html += '<td colspan="7">NO RECORD FOUND</td>';
-            }
-            tabel_pekerja.clear().draw();
-            tabel_pekerja.destroy()
-            $('#filterKursi').html(html);
-            $('#table-2').DataTable();
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     })
-})
 
-$(document).on('click', '#saveButton', function(e) {
-    var direktorat = $('#kursi_direktorat').val();
-    var fungsi = $('#kursi_fungsi').val();
-    var kapasitas = $('#kapasitas_kursi').val();
-    var label = $('#label_kursi').val();
+    $("#table-2").DataTable();
 
-    var data = {}
-    data.direktorat = direktorat;
-    data.fungsi = fungsi;
-    data.kapasitas = kapasitas;
-    data.label = label;
+    var dt = new Date();
+    document.getElementById("date").innerHTML = dt.toLocaleDateString('en-UK');
 
-    route = "{{route('tambah-kursi')}}";
-    $.ajax({
-        url: route,
-        type: "POST",
-        data: "datanya=" + JSON.stringify(data),
-        dataType: "json",
-        beforeSend: function() {
+    $("#direktorat").change(function() {
+        var direktorat = $('#direktorat').val();
+        $.ajax({
+            url: "{{ route('get-fungsi')}}",
+            method: "POST",
+            data: "datanya=" + JSON.stringify(direktorat),
+            dataType: 'json',
+            beforeSend: function() {
 
-        },
-        success: function(data) {
-            if (data.status == 'success') {
-                swal.fire("Success!", data.message, data.alert)
-                    .then(function() {
-                        location.reload();
+            },
+            success: function(data) {
+                fungsi = {};
+                for (let i = 0; i < data.length; i++) {
+                    fungsi[data[i].ID] = data[i].nama
+                }
+                $('#fungsi').find('option')
+                    .remove()
+                    .end()
+                    .append('<option value=""> -- Pilih Fungsi -- </option>')
+
+                $.each(fungsi, function(val, text) {
+                    $('#fungsi').append(
+                        $('<option></option>').val(val).html(text)
+                    );
+                });
+            }
+        });
+    });
+
+    $("#kursi_direktorat").change(function() {
+        var direktorat = $('#kursi_direktorat').val();
+        $.ajax({
+            url: "{{ route('get-fungsi')}}",
+            method: "POST",
+            data: "datanya=" + JSON.stringify(direktorat),
+            dataType: 'json',
+            beforeSend: function() {
+
+            },
+            success: function(data) {
+                fungsi = {};
+                for (let i = 0; i < data.length; i++) {
+                    fungsi[data[i].ID] = data[i].nama
+                }
+                $('#kursi_fungsi').find('option')
+                    .remove()
+                    .end()
+                    .append('<option value=""> -- Pilih Fungsi -- </option>')
+
+                $.each(fungsi, function(val, text) {
+                    $('#kursi_fungsi').append(
+                        $('<option></option>').val(val).html(text)
+                    );
+                });
+            }
+        });
+    });
+
+    $(document).on('click', '#filterButton', function(e) {
+        var direktorat = $('#direktorat').val();
+        var fungsi = $('#fungsi').val();
+
+        var data = {}
+        data.direktorat = direktorat;
+        data.fungsi = fungsi;
+
+        route = "{{route('filter-kursi')}}";
+        var tabel_pekerja = $("#table-2").DataTable();
+        $.ajax({
+            url: route,
+            type: "POST",
+            data: "datanya=" + JSON.stringify(data),
+            dataType: "json",
+            beforeSend: function() {
+
+            },
+            success: function(data) {
+                response = JSON.parse(JSON.stringify(data));
+                console.log(response);
+
+                var html = "";
+                if (data.length) {
+                    $.each(data, function(key, value) {
+                        html += '<tr>'
+                        html += '<td>' + (key + 1) + '</td>';
+                        html += '<td>' + value.direktorat + '</td>';
+                        html += '<td>' + value.nama_fungsi + '</td>';
+                        html += '<td>' + value.jumlah + '</td>';
+                        html += '<td>' + value.terisi + '</td>';
+                        html += '<td>' + value.tersedia + '</td>';
+                        html += '<td><button type="button" class="btn btn-primary mdlDetail" data-toggle="modal" onclick="detail_kursi(' + value.id_fungsi + ')">Detail</button></td>';
+                        html += '</tr>'
                     });
-            } else {
-                swal.fire("Warning!", data.message, data.alert);
+
+                } else {
+                    html += '<td colspan="7">NO RECORD FOUND</td>';
+                }
+                tabel_pekerja.clear().draw();
+                tabel_pekerja.destroy()
+                $('#filterKursi').html(html);
+                $('#table-2').DataTable();
             }
-        }
+        })
     })
-    
-})
 
-function detail_kursi(fungsi, jumlah) {
-    $('#modalDetail').modal('show');
-    var idFung = fungsi;
-    var data = {}
-    data.idFungsi = fungsi;
-    $('#detailKapasitas').text(jumlah);
+    $(document).on('click', '#saveButton', function(e) {
+        var direktorat = $('#kursi_direktorat').val();
+        var fungsi = $('#kursi_fungsi').val();
+        var kapasitas = $('#kapasitas_kursi').val();
+        var label = $('#label_kursi').val();
 
-    route = "{{route('detail-kursi')}}";
-    $.ajax({
-        url: route,
-        type: "POST",
-        data: "datanya=" + JSON.stringify(data),
-        dataType: "json",
-        beforeSend: function() {
+        var data = {}
+        data.direktorat = direktorat;
+        data.fungsi = fungsi;
+        data.kapasitas = kapasitas;
+        data.label = label;
 
-        },
-        success: function(data) {
-            response = JSON.parse(JSON.stringify(data));
-            console.log(response);
-            $('#detailDirektorat').text(data[0].direktorat);
-            $('#detailFungsi').text(data[0].fungsi);
-            var html = "";
-            if (data.length) {
-                $.each(data, function(key, value) {
-                    html += '<tr>'
-                    html += '<td>' + (key+1) + '</td>';
-                    html += '<td>' + value.kodeKursi + '</td>';
-                    html += '<td>' + value.namaKursi + '</td>';
-                    html += '</tr>'
-                });
+        route = "{{route('tambah-kursi')}}";
+        $.ajax({
+            url: route,
+            type: "POST",
+            data: "datanya=" + JSON.stringify(data),
+            dataType: "json",
+            beforeSend: function() {
 
-            } else {
-                html += '<tr>';
-                html += '<td colspan="7">NO RECORD FOUND</td>';
-                html += '</tr>';
+            },
+            success: function(data) {
+                if (data.status == 'success') {
+                    swal.fire("Success!", data.message, data.alert)
+                        .then(function() {
+                            location.reload();
+                        });
+                } else {
+                    swal.fire("Warning!", data.message, data.alert);
+                }
             }
-            $('#availableKursi').html(html);
-            
-        }
+        })
+
     })
-    detail_booking(idFung);
-}
 
-function detail_booking(params){
-    var data = {}
-    data.idFungsi = params;
+    function detail_kursi(fungsi, jumlah) {
+        $('#modalDetail').modal('show');
+        var idFung = fungsi;
+        var data = {}
+        data.idFungsi = fungsi;
+        $('#detailKapasitas').text(jumlah);
 
-    route = "{{route('detail-booking')}}";
-    $.ajax({
-        url: route,
-        type: "POST",
-        data: "datanya=" + JSON.stringify(data),
-        dataType: "json",
-        beforeSend: function() {
+        route = "{{route('detail-kursi')}}";
+        $.ajax({
+            url: route,
+            type: "POST",
+            data: "datanya=" + JSON.stringify(data),
+            dataType: "json",
+            beforeSend: function() {
 
-        },
-        success: function(data) {
-            response = JSON.parse(JSON.stringify(data));
-            console.log(response);
-            
-            var html = "";
-            if (data.length) {
-                $.each(data, function(key, value) {
-                    html += '<tr>'
-                    html += '<td>' + (key+1) + '</td>';
-                    html += '<td>' + value.kodeKursi + '</td>';
-                    html += '<td>' + value.namaKursi + '</td>';
-                    html += '<td>' + value.nomorPekerja + '</td>';
-                    html += '<td>' + '' + '</td>';
-                    html += '</tr>'
-                });
+            },
+            success: function(data) {
+                response = JSON.parse(JSON.stringify(data));
+                console.log(response);
+                $('#detailDirektorat').text(data[0].direktorat);
+                $('#detailFungsi').text(data[0].fungsi);
+                var html = "";
+                if (data.length) {
+                    $.each(data, function(key, value) {
+                        html += '<tr>'
+                        html += '<td>' + (key + 1) + '</td>';
+                        html += '<td>' + value.kodeKursi + '</td>';
+                        html += '<td>' + value.namaKursi + '</td>';
+                        html += '</tr>'
+                    });
 
-            } else {
-                html += '<tr>';
-                html += '<td colspan="7">NO RECORD FOUND</td>';
-                html += '</tr>';
+                } else {
+                    html += '<tr>';
+                    html += '<td colspan="7">NO RECORD FOUND</td>';
+                    html += '</tr>';
+                }
+                $('#availableKursi').html(html);
+
             }
-            $('#detailBook').html(html);
-            
-        }
-    })
-}
+        })
+        detail_booking(idFung);
+    }
+
+    function detail_booking(params) {
+        var data = {}
+        data.idFungsi = params;
+
+        route = "{{route('detail-booking')}}";
+        $.ajax({
+            url: route,
+            type: "POST",
+            data: "datanya=" + JSON.stringify(data),
+            dataType: "json",
+            beforeSend: function() {
+
+            },
+            success: function(data) {
+                response = JSON.parse(JSON.stringify(data));
+                console.log(response);
+
+                var html = "";
+                if (data.length) {
+                    $.each(data, function(key, value) {
+                        html += '<tr>'
+                        html += '<td>' + (key + 1) + '</td>';
+                        html += '<td>' + value.kodeKursi + '</td>';
+                        html += '<td>' + value.namaKursi + '</td>';
+                        html += '<td>' + value.nomorPekerja + '</td>';
+                        html += '<td>' + '' + '</td>';
+                        html += '</tr>'
+                    });
+
+                } else {
+                    html += '<tr>';
+                    html += '<td colspan="7">NO RECORD FOUND</td>';
+                    html += '</tr>';
+                }
+                $('#detailBook').html(html);
+
+            }
+        })
+    }
 </script>
 @endsection
 @endsection

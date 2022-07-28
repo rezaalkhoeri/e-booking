@@ -40,8 +40,8 @@ class BookingKursi extends Controller
     public function save_pekerja_wfo()
     {
         $data = json_decode($_POST['datanya']);
+
         $getSession = Session::get('user_access');
-        $getUser = DB::table('users')->where(['userid' => $getSession['user_id']])->get();
 
         $tgl = explode(' - ', $data->tanggalPakai);
         $tglStart = $tgl[0];
@@ -72,7 +72,7 @@ class BookingKursi extends Controller
                 'keterangan' => $data->list_wfo[$i][2],
                 'tipeRequest' => '1',
                 'statusBooking' => '1',
-                'createdby' => $getUser[0]->userid
+                'createdby' => $getSession['user_nama']
             ]);
         }
 

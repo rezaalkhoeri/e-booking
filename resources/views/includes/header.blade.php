@@ -13,9 +13,9 @@
 </div>
 <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
   <div class="container">
-    <img src="{{ asset('vendor/technext/vacation-rental/images/pdsi-hd.png') }}" alt="" width="200">
+    <img src="{{ asset('vendor/technext/vacation-rental/images/pdsi-hd.png') }}" alt="" width="150">
     <div style="border-left: 3px solid #ed1b2f;height: 70px; margin-right: 10px;"></div>
-    <a class="navbar-brand" href="index.html">Booking<span>Ruang</span></a>
+    <a class="navbar-brand" href="index.html">HO<span>ME</span></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="fa fa-bars"></span> Menu
     </button>

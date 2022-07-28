@@ -91,10 +91,10 @@
         }
     });
 
-    const url_get_fungsi = '{{ route('get-fungsi') }}';
-    const url_post_request_wfo = '{{ route('submit-wfo') }}';
-    const url_get_atasan_fungsi = '{{ route('get-atasan-fungsi') }}';
-    const url_get_listapproval = '{{ route('list-approval') }}';
+    const url_get_fungsi = "{{ route('get-fungsi') }}";
+    const url_post_request_wfo = "{{ route('submit-wfo') }}";
+    const url_get_atasan_fungsi = "{{ route('get-atasan-fungsi') }}";
+    const url_get_listapproval = "{{ route('list-approval') }}";
 </script>
 
 
