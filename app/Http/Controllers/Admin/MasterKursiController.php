@@ -80,19 +80,11 @@ class MasterKursiController extends Controller
         $dataInsert = [];
         for ($i = 1; $i <= $qty; $i++) {
             $kh = 'A';
-            $nama = $lbl . ' ' . $i;
-            if ($i > 10) {
-                $kh = 'B';
-                $kd = $kh . $i;
-            } elseif ($i > 20) {
-                $kh = 'C';
-                $kd = $kh . $i;
-            } else {
-                $kd = $kh . $i;
-            }
+            $nama = $lbl . '-' . $i;
+
             array_push($dataInsert, [
                 'fungsi' => $fun,
-                'kode' => $kd,
+                'kode' => $nama,
                 'nama' => $nama,
                 'url' => $url,
             ]);
@@ -149,16 +141,18 @@ class MasterKursiController extends Controller
         $detailBook = DB::table('trx_bookingkursi')
             ->select(
                 'trx_bookingkursi.nomorPekerja as nomorPekerja',
+                'trx_bookingkursi.namaLengkap as namaPekerja',
                 'm_kursi.kode as kodeKursi',
                 'm_kursi.nama as namaKursi'
             )
-            ->join('m_kursi', 'm_kursi.ID', '=', 'trx_bookingkursi.kursi')
+            ->rightJoin('m_kursi', 'm_kursi.ID', '=', 'trx_bookingkursi.kursi')
             ->where('m_kursi.fungsi', '=', $idFun)
             ->where(function ($query) {
                 $query->where('m_kursi.status', '=', 2)
                     ->orWhere('m_kursi.status', '=', 3);
             })
-            ->whereRaw('DATE(trx_bookingkursi.tglMulai) = CURRENT_DATE()')
+            // ->whereRaw('DATE(trx_bookingkursi.tglMulai) >= CURRENT_DATE()')
+            // ->whereRaw('DATE(trx_bookingkursi.tglMulai) = CURRENT_DATE()')
             ->get();
 
         return json_encode($detailBook);

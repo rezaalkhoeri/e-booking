@@ -21,7 +21,7 @@ Master Data Kursi
     <div class="section-body">
         <div class="row">
             <div class="col-12">
-                <div class="card">
+                <div class="card card-primary">
                     <div class="card-header">
                         <h4>Tambah Data Kursi</h4>
 
@@ -62,7 +62,7 @@ Master Data Kursi
         </div>
         <div class="row">
             <div class="col-3 col-md-3 col-lg-3">
-                <div class="card">
+                <div class="card card-primary">
                     <div class="card-header">
                         <h4>Filter Data</h4>
 
@@ -93,7 +93,7 @@ Master Data Kursi
                 </div>
             </div>
             <div class="col-9 col-md-9 col-lg-9">
-                <div class="card">
+                <div class="card card-primary">
                     <div class="card-header">
                         <h4>Data Kursi</h4>
                     </div>
@@ -107,7 +107,7 @@ Master Data Kursi
                                             <th>Nomor</th>
                                             <th>Direktorat</th>
                                             <th>Fungsi</th>
-                                            <th>Kuota</th>
+                                            <th>Total</th>
                                             <th>Terisi</th>
                                             <th>Kosong</th>
                                             <th>Action</th>
@@ -404,8 +404,7 @@ Master Data Kursi
             success: function(data) {
                 response = JSON.parse(JSON.stringify(data));
                 console.log(response);
-                $('#detailDirektorat').text(data[0].direktorat);
-                $('#detailFungsi').text(data[0].fungsi);
+
                 var html = "";
                 if (data.length) {
                     $.each(data, function(key, value) {
@@ -413,16 +412,12 @@ Master Data Kursi
                         html += '<td>' + (key + 1) + '</td>';
                         html += '<td>' + value.kodeKursi + '</td>';
                         html += '<td>' + value.namaKursi + '</td>';
+                        html += '<td>' + value.nomorPekerja + '</td>';
+                        html += '<td>' + value.namaPekerja + '</td>';
                         html += '</tr>'
                     });
 
-                } else {
-                    html += '<tr>';
-                    html += '<td colspan="7">NO RECORD FOUND</td>';
-                    html += '</tr>';
                 }
-                $('#availableKursi').html(html);
-
             }
         })
         detail_booking(idFung);
