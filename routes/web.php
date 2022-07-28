@@ -85,6 +85,8 @@ Route::middleware([CheckAuth::class])->group(function () {
     Route::get('monitor-booking', [BookingKursi::class, 'monitor_booking'])->name('monitor-booking');
     Route::get('get-booking', [BookingKursi::class, 'get_booking'])->name('get-booking');
     Route::post('update-booking', [BookingKursi::class, 'update_booking'])->name('update-booking');
+    Route::post('filter-booking', [BookingKursi::class, 'filter_booking'])->name('filter-booking');
+    Route::post('detail-monitor', [BookingKursi::class, 'detail_monitor'])->name('detail-monitor');
 
 
 

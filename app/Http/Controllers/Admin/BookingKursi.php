@@ -181,4 +181,46 @@ class BookingKursi extends Controller
             return;
         }
     }
+
+    public function filter_booking()
+    {
+        $data = json_decode($_POST['datanya']);
+
+        $direktorat     = $data->direktorat;
+        $fungsi         = $data->fungsi;
+        $statusBooking  = $data->statusBooking;
+        $tipePakai      = $data->tipePakai; 
+        $tgl            = explode(' - ', $data->tglPakai);
+        $tglStart       = $tgl[0];
+        $tglFinish      = $tgl[1];
+        $sorting        = $data->sorting;
+
+        $getFilter = DB::table('trx_bookingkursi')
+                        ->select(
+                            'trx_bookingkursi.*',
+                            'ref_fungsi.nama as namaFungsi',
+                            'm_kursi.kode as kodeKursi')
+                        ->join('ref_fungsi','trx_bookingkursi.fungsi','=','ref_fungsi.ID')
+                        ->join('m_kursi','trx_bookingkursi.kursi','=','m_kursi.ID')
+                        ->where([
+                            ['trx_bookingkursi.direktorat',$direktorat],
+                            ['trx_bookingkursi.fungsi',$fungsi],
+                            ['trx_bookingkursi.tglMulai',$tglStart],
+                            ['trx_bookingkursi.tglSelesai',$tglFinish],
+                            ['trx_bookingkursi.tipe',$tipePakai],
+                            ['trx_bookingkursi.statusBooking',$statusBooking]])
+                        ->orderBy('trx_bookingkursi.ID',$sorting)
+                        ->get();
+        return json_encode($getFilter);
+    }
+
+    public function detail_monitor(){
+        $data = json_decode($_POST['datanya']);
+
+        $idBook = $data->id_book;
+
+        $getDetail = DB::table('trx_bookingkursi')->where('ID', $idBook)->get();
+
+        return json_encode($getDetail);
+    }
 }

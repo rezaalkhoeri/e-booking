@@ -58,7 +58,7 @@ Input Pekerja WFO
                         <div class="row">
                             <div class="form-group col-6">
                                 <div class="section-title">Status Booking</div>
-                                <select class="form-control" id="tipe_pakai">
+                                <select class="form-control" id="status_booking">
                                     <option value="">-- Pilih Status Booking -- </option>
                                     <option value="1">Aktif</option>
                                     <option value="2">Sudah discan</option>
@@ -69,11 +69,11 @@ Input Pekerja WFO
                             <div class="form-group col-6">
                                 <div class="section-title">Urutkan Dari</div>
                                 <div class="custom-control custom-radio custom-control-inline">
-                                    <input type="radio" id="customRadioInline1" name="customRadioInline1" class="custom-control-input">
+                                    <input type="radio" value="asc" id="customRadioInline1" name="filter" class="custom-control-input">
                                     <label class="custom-control-label" for="customRadioInline1">Terbaru</label>
                                 </div>
                                 <div class="custom-control custom-radio custom-control-inline">
-                                    <input type="radio" id="customRadioInline2" name="customRadioInline1" class="custom-control-input">
+                                    <input type="radio" value="desc" id="customRadioInline2" name="filter" class="custom-control-input">
                                     <label class="custom-control-label" for="customRadioInline2">Terlama</label>
                                 </div>
                             </div>
@@ -131,6 +131,63 @@ Input Pekerja WFO
 
     </div>
 </section>
+<!-- Modal DETAIL-->
+<div class="modal fade" id="modalDetail" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Detail Kursi</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="idFungsi"></div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <table id="table" border="0" class="table table-striped">
+                            <thead>
+                                <tr role="row">
+                                    <th width="40">Tanggal</th>
+                                    <th width="5">:</th>
+                                    <th>
+                                        <div class="" id="tanggal"></div>
+                                    </th>
+                                </tr>
+                                <tr role="row">
+                                    <th width="40">Waktu</th>
+                                    <th width="5">:</th>
+                                    <th>
+                                        <div class="" id="waktu"></div>
+                                    </th>
+                                </tr>
+                                <tr role="row">
+                                    <th width="40">Tipe Pemakaian</th>
+                                    <th width="5">:</th>
+                                    <th>
+                                        <div class="" id="tipe"></div>
+                                    </th>
+                                </tr>
+                                <tr role="row">
+                                    <th width="40">Keterangan</th>
+                                    <th width="5">:</th>
+                                    <th>
+                                        <div class="" id="keterangan"></div>
+                                    </th>
+                                </tr>
+                                
+                            </thead>
+                           
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 @section('scripts')
 
 <script>
@@ -218,7 +275,7 @@ Input Pekerja WFO
                     render: function(data, type, row, meta) {
 
                         function buttonCheck(value, row) {
-                            let checkHTML = '<button class="btn btn-info" id="' + row + '" data="' + value + '">Detail</button>'
+                            let checkHTML = '<button class="btn btn-info" id="' + row + '" data="' + value + '" onclick="detail('+data+')">Detail</button>'
                             return checkHTML;
                         }
 
@@ -346,7 +403,181 @@ Input Pekerja WFO
                 }
             });
         })
+
+        $("#filterButton").click(function(e) {
+            let tabel_booking = $("#list_booking").DataTable();
+            var direktorat = $('#direktorat').val();
+            var fungsi = $('#fungsi').val();
+            var tglPakai = $('#tanggalPakai').val();
+            var tipePakai = $('#tipe_pakai').val();
+            var statusBooking = $('#status_booking').val();
+            var ele = document.getElementsByName('filter');
+            for(i = 0; i < ele.length; i++) {
+                if(ele[i].checked)
+                sorting = ele[i].value;
+            }
+
+            var data = {}
+            data.direktorat = direktorat;
+            data.fungsi = fungsi;
+            data.tglPakai = tglPakai;
+            data.tipePakai = tipePakai;
+            data.statusBooking = statusBooking;
+            data.sorting = sorting;
+
+            route = "{{route('filter-booking')}}";
+            $.ajax({
+                url: route,
+                type: "POST",
+                data: "datanya=" + JSON.stringify(data),
+                dataType: "json",
+                beforeSend: function() {
+
+                },
+                success: function(data_return){
+                    response = JSON.parse(JSON.stringify(data_return));
+                    console.log(response);
+                    let tabel_booking = $("#list_booking").DataTable();
+                    tabel_booking.clear().draw();
+                    tabel_booking.destroy()
+                    $("#tanggal").text()
+
+                    $("#list_booking").DataTable({
+                        data:data_return, // memanggil route yang menampilkan data json
+                        columns: [{ // mengambil & menampilkan kolom sesuai tabel database
+                                data: 'ID',
+                                name: 'checkbox',
+                                render: function(data, type, row, meta) {
+
+                                    function buttonCheck(value, row) {
+                                        let checkHTML = '<div class="custom-checkbox custom-control">'
+                                        checkHTML += '<input type="checkbox" value="' + value + '" data-checkboxes="mygroup" class="custom-control-input checkbox" id="checkbox-' + row + '">'
+                                        checkHTML += '<label for="checkbox-' + row + '" class="custom-control-label">&nbsp;</label>'
+                                        checkHTML += '</div>'
+
+                                        return checkHTML;
+                                    }
+
+                                    return buttonCheck(data, (meta.row + 1));
+                                }
+                            },
+                            {
+                                data: 'kodeBooking',
+                                name: 'kode_booking'
+                            },
+                            {
+                                data: 'nomorPekerja',
+                                name: 'nopek'
+                            },
+                            {
+                                data: 'namaLengkap',
+                                name: 'nama_lengkap'
+                            },
+                            {
+                                data: 'namaFungsi',
+                                name: 'fungsi'
+                            },
+                            {
+                                data: 'kodeKursi',
+                                name: 'kode_kursi'
+                            },
+                            {
+                                data: 'tipeRequest',
+                                name: 'tipe_request',
+                                render: function(data, type, row, meta) {
+                                    let html = ''
+                                    if (data == 1) {
+                                        html = 'WFO Mandatory'
+                                    } else {
+                                        html = 'WFH to WFO'
+                                    }
+
+                                    return html;
+                                }
+                            },
+                            {
+                                data: 'statusBooking',
+                                name: 'status_booking',
+                                render: function(data, type, row, meta) {
+                                    let html = ''
+                                    if (data == 1) {
+                                        html = '<span class="badge badge-success">Aktif</span>'
+                                    } else if (data == 2) {
+                                        html = '<span class="badge badge-info">Sudah Discan</span>'
+                                    } else if (data == 3) {
+                                        html = '<span class="badge badge-warning">Waiting List</span>'
+                                    } else {
+                                        html = '<span class="badge badge-danger">Canceled</span>'
+                                    }
+
+                                    return html;
+                                }
+                            },
+                            {
+                                data: 'ID',
+                                name: 'action',
+                                render: function(data, type, row, meta) {
+
+                                    function buttonCheck(value, row) {
+                                        let checkHTML = '<button class="btn btn-info" onclick="detail('+data+')">Detail</button>'
+                                        return checkHTML;
+                                    }
+
+                                    return buttonCheck(data, (meta.row + 1));
+                                }
+                            },
+
+                        ],
+                        destroy: true,
+                        columnDefs: [{
+                            "sortable": false,
+                            "targets": [0, 1, 2, 3]
+                        }],
+
+                    });
+                    
+                   
+
+                }
+            });
+        });
+
+
     });
+    function detail(id){
+            var idBook = id;
+            var data = {};
+            data.id_book = idBook;
+            $("#modalDetail").modal('show');
+
+            route = "{{route('detail-monitor')}}";
+            $.ajax({
+                url: route,
+                type: "POST",
+                data: "datanya=" + JSON.stringify(data),
+                dataType: "json",
+                beforeSend: function() {
+
+                },
+                success: function(data) {
+                    response = JSON.parse(JSON.stringify(data));
+                    console.log(response);
+                    
+                    $("#tanggal").text(data[0].tglMulai + ' s/d ' + data[0].tglSelesai);
+                    $("#waktu").text(data[0].jamMulai + ' s/d ' + data[0].jamSelesai);
+                    if (data[0].tipe == 1) {
+                        $("#tipe").text("Half Time");
+                    }else if(data[0].tipe == 2){
+                        $("#tipe").text("Full Time");
+                    }else{
+                        $("#tipe").text("Custom");
+                    }
+
+                    $("#keterangan").text(data[0].keterangan);
+                    
+                }
+            });
+        }
 </script>
 
 @endsection
